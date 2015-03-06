@@ -65,10 +65,68 @@ pull的镜像信息保存在了graph文件夹下，镜像的内容存在了`devi
 在Docker架构中扮演已下载容器镜像的保管者，以及已下载容器镜像之间关系的记录者。graph的本地目录中，关于每一个的容器镜像，具体存储的信息有：该容器镜像的元数据（json），容器镜像的大小（layersize）信息，以及该容器镜像所代表的具体rootfs。
 
 ##5.	实验测试：
-###* 初始没有启容器：     
+###- 初始没有启容器：     
 <pre><code>
 [root@localhost docker]# ll containers/
 total 0
 </code></pre>
+###- 启动一个容器：
+<pre><code>
+[root@localhost docker]# docker run -i -t --rm centos:7 /bin/bash
+[root@187a8f9d2865 /]#
+</code></pre>
+所启动的容器的`UUID=187a8f9d2865`
+###- 启动容器前，查看查看/var/lib/docker/devicemapper/devicemapper/下文件的实际大小
+<code><pre>
+[root@bhDocker216 docker]# du -h devicemapper/devicemapper/*
+2.1G	devicemapper/devicemapper/data
+3.5M	devicemapper/devicemapper/metadata
+</code></pre>
+###- 在host的主机上查看
+<code><pre>
+[root@bhDocker216 docker]# ls containers/
+187a8f9d2865c2ac***91b981
+</code></pre>
+查看启动的容器在UUID文件夹下面的内容：
+<code><pre>
+[root@bhDocker216 containers]# ll 187a8f9d2865c2ac***91b981
+total 24
+-rw-------. 1 root root   273  Mar   5 23:59  187a8f9d2865***-json.log
+-rw-r--r--. 1 root root  1683  Mar  5 23:58   config.json
+-rw-r--r--. 1 root root   334  Mar  5 23:58   hostconfig.json
+-rw-r--r--. 1 root root    13  Mar  5 23:58   hostname
+-rw-r--r--. 1 root root   174  Mar  5 23:58   hosts
+-rw-r--r--. 1 root root    69  Mar  5 23:58   resolv.conf
+</code></pre>
+###- 在启动的容器添加文件,并查看。
+先在运行的容器内创建一个文件：
+<code><pre>
+[root@8a1e3ad05d9e /]# dd if=/dev/zero of=floppy.img bs=512 count=5760
+5760+0 records in
+5760+0 records out
+2949120 bytes (2.9 MB) copied, 0.0126794 s, 233 MB/s
+</code></pre>
+然后在`/var/lib/docker/devicemapper/devicemapper/`下查看文件：
+<code><pre>
+[root@bhDocker216 docker]# du -h devicemapper/devicemapper/*
+5.5G	devicemapper/devicemapper/data
+4.6M	devicemapper/devicemapper/metadata
+</code></pre>
+这地方大小有点出入，是因为先执行了 `# dd if=/dev/zero of=test.txt bs=1M count=8000`，创建一个8G大小的文件，由于太慢我终止了，但是可以明确的看到在运行的容器里进行操作，两个文件夹都发生了改变（增加）。
+###- 查看graph，在只pull了一个镜像（Ubuntu14.10）的情况下，里面出现了7个长UUID命名的目录，这是怎么来的呢？    
+用` docker images –tree `列出镜像树形结构，我们可以看到镜像的分层存储结构。最终的Ubuntu（第7层）是基于第6层改动的，即这种逻辑上的树中第n层基于是第n-1层改动的，n层依赖n-1层的image。第0层，大小为0，称为base image。
+###- graph/UUID目录下内容是啥呢？
+<code><pre>
+[root@localhost graph]# ll 01bf15a18638145eb***  -h
+total 8.0K
+-rw-------. 1 root root  1.6K  Mar  5 18:02  json
+-rw-------. 1 root root    9  Mar  5 18:02  layersize
+</code></pre>
+查看layersize的内容：数字表示层的大小（单位：B）。
+josn：保存了这个镜像的元数据（如：`size，architecture，config，container，**parent的UUID**`等等）。
+###- 查看devicemapper/devicemapper文件夹    
+有两个文件夹`data`和`metadata`，其实device mapper driver是就是把**镜像和容器的文件**都存储在`**data**`这个文件内。可以通过docker info查看data和metadata的大小。
+另外可以用`du –h`（上面有用到）查看这两个稀疏文件的实际大小。
+
 
 
