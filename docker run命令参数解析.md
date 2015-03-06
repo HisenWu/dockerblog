@@ -77,18 +77,18 @@ total 0
 </code></pre>
 所启动的容器的`UUID=187a8f9d2865`
 ###- 启动容器前，查看查看/var/lib/docker/devicemapper/devicemapper/下文件的实际大小
-<code><pre>
+<pre><code>
 [root@bhDocker216 docker]# du -h devicemapper/devicemapper/*
 2.1G	devicemapper/devicemapper/data
 3.5M	devicemapper/devicemapper/metadata
 </code></pre>
 ###- 在host的主机上查看
-<code><pre>
+<pre><code>
 [root@bhDocker216 docker]# ls containers/
 187a8f9d2865c2ac***91b981
 </code></pre>
 查看启动的容器在UUID文件夹下面的内容：
-<code><pre>
+<pre><code>
 [root@bhDocker216 containers]# ll 187a8f9d2865c2ac***91b981
 total 24
 -rw-------. 1 root root   273  Mar   5 23:59  187a8f9d2865***-json.log
@@ -100,14 +100,14 @@ total 24
 </code></pre>
 ###- 在启动的容器添加文件,并查看。
 先在运行的容器内创建一个文件：
-<code><pre>
+<pre><code>
 [root@8a1e3ad05d9e /]# dd if=/dev/zero of=floppy.img bs=512 count=5760
 5760+0 records in
 5760+0 records out
 2949120 bytes (2.9 MB) copied, 0.0126794 s, 233 MB/s
 </code></pre>
-然后在`/var/lib/docker/devicemapper/devicemapper/`下查看文件：
-<code><pre>
+然后在/var/lib/docker/devicemapper/devicemapper/下查看文件：
+<pre><code>
 [root@bhDocker216 docker]# du -h devicemapper/devicemapper/*
 5.5G	devicemapper/devicemapper/data
 4.6M	devicemapper/devicemapper/metadata
@@ -115,8 +115,8 @@ total 24
 这地方大小有点出入，是因为先执行了 `# dd if=/dev/zero of=test.txt bs=1M count=8000`，创建一个8G大小的文件，由于太慢我终止了，但是可以明确的看到在运行的容器里进行操作，两个文件夹都发生了改变（增加）。
 ###- 查看graph，在只pull了一个镜像（Ubuntu14.10）的情况下，里面出现了7个长UUID命名的目录，这是怎么来的呢？    
 用` docker images –tree `列出镜像树形结构，我们可以看到镜像的分层存储结构。最终的Ubuntu（第7层）是基于第6层改动的，即这种逻辑上的树中第n层基于是第n-1层改动的，n层依赖n-1层的image。第0层，大小为0，称为base image。
-###- graph/UUID目录下内容是啥呢？
-<code><pre>
+###- graph/UUID目录下内容是啥呢？   
+<pre><code>
 [root@localhost graph]# ll 01bf15a18638145eb***  -h
 total 8.0K
 -rw-------. 1 root root  1.6K  Mar  5 18:02  json
@@ -128,5 +128,39 @@ josn：保存了这个镜像的元数据（如：`size，architecture，config�
 有两个文件夹`data`和`metadata`，其实device mapper driver是就是把**镜像和容器的文件**都存储在`**data**`这个文件内。可以通过docker info查看data和metadata的大小。
 另外可以用`du –h`（上面有用到）查看这两个稀疏文件的实际大小。
 
+###- execdriver
+<pre><code>
+[root@bhDocker216 docker]# ls execdriver/native/
+8a1e3ad05d9e66a455e683a2c***2437bdcccdfdfa
+//对里面的内容进行查看：
+[root@bhDocker216 8a1e3ad05d9e66a455e***]# ls
+container.json  state.json
+</code></pre>
+###- volumes
+没有加-v参数的volumes是空的，经测试如果启动容器增加加-v参数，volumes文件夹下将显示一个UUID，在host进行全局搜索，只在volumes下找到了，跟镜像和容器的UUID都没有关系。
+<pre><code>
+[root@bhDocker216 docker]# find / -name 86eb77f9f5e25676f100***d5a
+/var/lib/docker/volumes/86eb77f9f5e25676f100***d5a
+//查看里面的内容：
+[root@bhDocker216 volumes]# ls 86eb77f9f5e25676f100***d5a
+config.json
+[root@bhDocker216 volumes]# cat 86eb77f9f5e25676f100***d5a /config.json 
+{"ID":"86eb77f9f5e25676f100a89ba727bc15185303236aae0dcf4c17223e37651d5a","Path":"/home/data","IsBindMount":true,"Writable":true}
+</code></pre>
+#文件夹作用表格性说明
+做个总结，整理一个表格，把/var/lib/docker下的不同文件夹作用说明下：
 
 
+/var/lib/docker/文件夹|作用
+:---------------|:---------------
+containers|运行的容器的UUID，UUID文件夹放容器在启动前和启动时（参数）的配置
+repositories-devicemapper|本地上存放的镜像的名称及其64位长度的ID即：IMAGENAME：TAG，UUID；docker images 查看到的信息 
+graph|layer image的相关信息，不是镜像的内容；dokcer images -tree查看到的信息
+devicemapper/devicemapper|data：镜像和容器文件存储地
+devicemapper/metadata|小的json文件，跟踪快照的ID和大小
+execdriver/native/|运行container的UUID，里面存储了container.json和state.json；通过docker ps –a查看
+volumes|添加-v参数后生成一个UUID文件夹，里面是具体的共享卷配置信息
+
+
+
+更多关于docker的技术文章，请访问：[team blog](http://openstack.wiaapp.cn/)
