@@ -151,15 +151,15 @@ config.json
 做个总结，整理一个表格，把/var/lib/docker下的不同文件夹作用说明下：
 
 
-/var/lib/docker/文件夹|作用
-:---------------|:---------------
-containers|运行的容器的UUID，UUID文件夹放容器在启动前和启动时（参数）的配置
-repositories-devicemapper|本地上存放的镜像的名称及其64位长度的ID即：IMAGENAME：TAG，UUID；docker images 查看到的信息 
-graph|layer image的相关信息，不是镜像的内容；dokcer images -tree查看到的信息
-devicemapper/devicemapper|data：镜像和容器文件存储地
-devicemapper/metadata|小的json文件，跟踪快照的ID和大小
-execdriver/native/|运行container的UUID，里面存储了container.json和state.json；通过docker ps –a查看
-volumes|添加-v参数后生成一个UUID文件夹，里面是具体的共享卷配置信息
+|/var/lib/docker/文件夹|作用|
+|:---------------|:---------------|
+|containers|运行的容器的UUID，UUID文件夹放容器在启动前和启动时（参数）的配置|
+|repositories-devicemapper|本地上存放的镜像的名称及其64位长度的ID即：IMAGENAME：TAG，UUID；docker images 查看到的信息| 
+|graph|layer image的相关信息，不是镜像的内容；dokcer images -tree查看到的信息|
+|devicemapper/devicemapper|data：镜像和容器文件存储地|
+|devicemapper/metadata|小的json文件，跟踪快照的ID和大小|
+|execdriver/native/|运行container的UUID，里面存储了container.json和state.json；通过docker ps –a查看|
+|volumes|添加-v参数后生成一个UUID文件夹，里面是具体的共享卷配置信息|
 
 
 
