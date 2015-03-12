@@ -27,7 +27,7 @@ RPC，远程过程调用 (Remote Procedure Call) 是能使客户端执行其他�
 >下面的配置过程，请留意命令前面[]当中的不同主机。
 
 ##系统版本信息
-```
+```shell
 [nfs server]# cat /etc/issue
 Fedora release 21 (Twenty One)
 Kernel \r on an \m (\l)  
