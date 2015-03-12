@@ -27,11 +27,11 @@ RPC，远程过程调用 (Remote Procedure Call) 是能使客户端执行其他�
 >下面的配置过程，请留意命令前面[]当中的不同主机。
 
 ##系统版本信息
-<pre><code>
+```
 [nfs server]# cat /etc/issue
 Fedora release 21 (Twenty One)
 Kernel \r on an \m (\l)  
-</code></pre>    
+```   
 ##安装NFS
 ```
 [nfs server]# rpm -qa | grep nfs
@@ -44,7 +44,6 @@ nfs-utils-1.3.1-6.1.fc21.x86_64
 ```
 ##配置NFS
 ```
-```shell
 [nfs server]# vi exports
 write setting for NFS exports
 /home/nfs_share 186.100.8.0/24(insecure,rw,no_root_squash)
