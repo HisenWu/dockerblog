@@ -113,7 +113,7 @@ Redirecting to /bin/systemctl status  nfs.service
 [client]# showmount -e  186.100.8.117
 clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)
 ```
-###在client上使用 No route to host
+###在client上使用，出现No route to host错误
 ```shell
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: Connection timed out
@@ -155,3 +155,4 @@ shm                                                                             
 /dev/mapper/fedora--server-root                                                                    45G  4.9G   38G  12% /etc/hosts
 186.100.8.117:/home/nfs_share                                                                     3.1T  2.1G  3.0T   1% /home/docker_nfs
 ```
+至此，已经把NFS server上的/home/nfs_server目录，共享给docker_nfs。
