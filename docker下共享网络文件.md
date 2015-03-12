@@ -156,4 +156,4 @@ shm                                                                             
 186.100.8.117:/home/nfs_share                                                                     3.1T  2.1G  3.0T   1% /home/docker_nfs
 ```
       
-###至此，实现了把NFS server上的/home/nfs_server目录，共享给docker_nfs。
+###至此，实现了把NFS server上的/home/nfs_server目录，共享给docker下的/home/docker_nfs目录。
