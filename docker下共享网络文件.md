@@ -1,5 +1,5 @@
       
-##目标: 	
+##目标:     
 * 配置 NFS server,通过网络共享目录给client中运行的docker容器
 * 测试在docker容器中操作NFS server的共享目录
 
@@ -50,25 +50,30 @@ write setting for NFS exports
 * no_root_squash：NFS 服务共享的目录的属性, 如果用户是root, 那么对这个目录就有root的权限.
 * 如果有多个目录, 每个目录一行,可添加多个目录
 
-NFS服务的配置文件为 /etc/exports，这个文件是NFS的主要配置文件，不过系统并没有默认值，所以这个文件不一定会存在，可能要使用vim手动建立，然后在文件里面写入配置内容。
-/etc/exports文件内容格式：
-<输出目录> [客户端1 选项（访问权限,用户映射,其他）] [客户端2 选项（访问权限,用户映射,其他）]
+NFS服务的配置文件为 `/etc/exports`，这个文件是NFS的主要配置文件，不过系统并没有默认值，所以这个文件不一定会存在，可能要使用vim手动建立，然后在文件里面写入配置内容。
+        
+    /etc/exports文件内容格式：
+    <输出目录> [客户端1 选项（访问权限,用户映射,其他）] [客户端2 选项（访问权限,用户映射,其他）]
 
 
 ##开启NFS服务
+```
 [nfs server]# service nfs start
 Redirecting to /bin/systemctl start  nfs.service
-
+```
 ##查看NFS状态
-[nfs server]# service nfs status
-Redirecting to /bin/systemctl status  nfs.service
-?.nfs-server.service - NFS server and services
+```
+[nfs server]# service nfs status    
+Redirecting to /bin/systemctl status  nfs.service   
+?.nfs-server.service - NFS server and services    
    Loaded: loaded (/usr/lib/systemd/system/nfs-server.service; disabled)
    Active: active (exited) since Wed 2015-03-11 22:35:11 EDT; 20s ago
   Process: 1767 ExecStart=/usr/sbin/rpc.nfsd $RPCNFSDARGS (code=exited, status=0/SUCCESS)
   Process: 1764 ExecStartPre=/usr/sbin/exportfs -r (code=exited, status=0/SUCCESS)
  Main PID: 1767 (code=exited, status=0/SUCCESS)
+ ```
  ##查看端口信息
+ ```
 [nfs server]# rpcinfo -p
    program vers proto   port  service
     100000    4   tcp    111  portmapper
@@ -97,23 +102,27 @@ Redirecting to /bin/systemctl status  nfs.service
     100021    1   tcp  59360  nlockmgr
     100021    3   tcp  59360  nlockmgr
     100021    4   tcp  59360  nlockmgr
-
+```
 ##在client上查看
+```
 [client]# showmount -e  186.100.8.117
 clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)
-
-在client上使用 No route to host
-	
+```
+###在client上使用 No route to host
+```	
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: Connection timed out
-
-关闭Fedora的防火墙:
-[root@localhost sysconfig]# systemctl stop firewalld.service
-
+```
+###关闭Fedora的防火墙:
+```
+[nfs server]# systemctl stop firewalld.service
+```
+```
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: access denied by server while mounting 186.100.8.117:/home/nfs_share
+```
 原来是把exports里面的地址配错了.
-
+```
 [client]# df -h
 Filesystem                       Size  Used Avail Use% Mounted on
 /dev/mapper/fedora--server-root   45G  4.9G   38G  12% /
@@ -125,7 +134,7 @@ tmpfs                            1.9G  4.0K  1.9G   1% /tmp
 /dev/sda1                        477M  129M  319M  29% /boot
 tmpfs                            377M     0  377M   0% /run/user/0
 186.100.8.117:/home/nfs_share    3.1T  2.1G  3.0T   1% /home/client_nfs
-
+```
 [docker]# df -h
 Filesystem                                                                                        Size  Used Avail Use% Mounted on
 /dev/mapper/docker-253:1-656482-b663ad112f59849ba533cea1879c0e2744642dc817546bf37084d54fb6d20dea  9.8G  246M  9.0G   3% /
