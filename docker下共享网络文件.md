@@ -33,16 +33,24 @@ Fedora release 21 (Twenty One)
 Kernel \r on an \m (\l)  
 </code></pre>    
 ##安装NFS
+<pre><code>
 [nfs server]# rpm -qa | grep nfs
 libnfsidmap-0.26-2.1.fc21.x86_64
 nfs-utils-1.3.1-6.1.fc21.x86_64
+</code></pre> 
+
 输出上面就是已经安装NFS；如果没有安装，使用下面命令安装：
-[nfs server] #yum install `nfs-utils`
+<pre><code>
+[nfs server] #yum install nfs-utils
+</code></pre> 
+
 ##配置NFS
+<pre><code>
 [nfs server]# vi exports
 write setting for NFS exports
 /home/nfs_share 186.100.8.0/24(insecure,rw,no_root_squash)
-        
+</code></pre> 
+
 * /home/nfs_share NFS_server上的共享目录
 * 186.100.8.0/24  网络中可以访问这个NFS输出目录的主机；可以指定主机IP（186.100.8.10），此处为一个子网的所有主机
 * insecure：访问端口号可以大于1024
@@ -50,16 +58,18 @@ write setting for NFS exports
 * no_root_squash：NFS 服务共享的目录的属性, 如果用户是root, 那么对这个目录就有root的权限.
 * 如果有多个目录, 每个目录一行,可添加多个目录
 
-NFS服务的配置文件为 /etc/exports，这个文件是NFS的主要配置文件，不过系统并没有默认值，所以这个文件不一定会存在，可能要使用vim手动建立，然后在文件里面写入配置内容。
-/etc/exports文件内容格式：
+NFS服务的配置文件为/etc/exports，这个文件是NFS的主要配置文件，不过系统并没有默认值，所以这个文件不一定会存在，可能要使用vim手动建立，然后在文件里面写入配置内容。     
+/etc/exports文件内容格式：       
 <输出目录> [客户端1 选项（访问权限,用户映射,其他）] [客户端2 选项（访问权限,用户映射,其他）]
 
-
 ##开启NFS服务
+<pre><code>
 [nfs server]# service nfs start
 Redirecting to /bin/systemctl start  nfs.service
+</code></pre> 
 
-##查看NFS状态
+##查看NFS状态      
+<pre><code> 
 [nfs server]# service nfs status
 Redirecting to /bin/systemctl status  nfs.service
 ?.nfs-server.service - NFS server and services
@@ -68,7 +78,10 @@ Redirecting to /bin/systemctl status  nfs.service
   Process: 1767 ExecStart=/usr/sbin/rpc.nfsd $RPCNFSDARGS (code=exited, status=0/SUCCESS)
   Process: 1764 ExecStartPre=/usr/sbin/exportfs -r (code=exited, status=0/SUCCESS)
  Main PID: 1767 (code=exited, status=0/SUCCESS)
- ##查看端口信息
+</code></pre> 
+        
+##查看端口信息
+<pre><code>
 [nfs server]# rpcinfo -p
    program vers proto   port  service
     100000    4   tcp    111  portmapper
@@ -97,23 +110,35 @@ Redirecting to /bin/systemctl status  nfs.service
     100021    1   tcp  59360  nlockmgr
     100021    3   tcp  59360  nlockmgr
     100021    4   tcp  59360  nlockmgr
+</code></pre> 
 
 ##在client上查看
+<pre><code>
 [client]# showmount -e  186.100.8.117
 clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)
+</code></pre> 
 
-在client上使用 No route to host
-	
+在client上使用，出现No route to host错误
+
+<pre><code>	
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: Connection timed out
+</code></pre> 
 
-关闭Fedora的防火墙:
-[root@localhost sysconfig]# systemctl stop firewalld.service
+##关闭Fedora的防火墙:
+<pre><code>
+[nfs server]# systemctl stop firewalld.service
+</code></pre> 
 
+##再进行连接测试
+<pre><code>
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: access denied by server while mounting 186.100.8.117:/home/nfs_share
-原来是把exports里面的地址配错了.
+</code></pre> 
+原来是把exports里面的地址配错了,修改后，连接成功。
 
+##在nfs client上查看共享目录
+<pre><code>
 [client]# df -h
 Filesystem                       Size  Used Avail Use% Mounted on
 /dev/mapper/fedora--server-root   45G  4.9G   38G  12% /
@@ -125,7 +150,12 @@ tmpfs                            1.9G  4.0K  1.9G   1% /tmp
 /dev/sda1                        477M  129M  319M  29% /boot
 tmpfs                            377M     0  377M   0% /run/user/0
 186.100.8.117:/home/nfs_share    3.1T  2.1G  3.0T   1% /home/client_nfs
+</code></pre> 
 
+##在nfs client上启docker容器
+
+##在容器里查看共享目录
+<pre><code>
 [docker]# df -h
 Filesystem                                                                                        Size  Used Avail Use% Mounted on
 /dev/mapper/docker-253:1-656482-b663ad112f59849ba533cea1879c0e2744642dc817546bf37084d54fb6d20dea  9.8G  246M  9.0G   3% /
@@ -133,3 +163,4 @@ tmpfs                                                                           
 shm                                                                                                64M     0   64M   0% /dev/shm
 /dev/mapper/fedora--server-root                                                                    45G  4.9G   38G  12% /etc/hosts
 186.100.8.117:/home/nfs_share                                                                     3.1T  2.1G  3.0T   1% /home/docker_nfs
+</code></pre> 
