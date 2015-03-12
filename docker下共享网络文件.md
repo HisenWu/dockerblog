@@ -126,7 +126,8 @@ mount.nfs: Connection timed out
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: access denied by server while mounting 186.100.8.117:/home/nfs_share
 ```
-原来是把exports里面的地址配错了.
+原来是把exports里面的地址配错了。
+##在nfs client上查看共享目录
 ```shell
 [client]# df -h
 Filesystem                       Size  Used Avail Use% Mounted on
@@ -140,6 +141,11 @@ tmpfs                            1.9G  4.0K  1.9G   1% /tmp
 tmpfs                            377M     0  377M   0% /run/user/0
 186.100.8.117:/home/nfs_share    3.1T  2.1G  3.0T   1% /home/client_nfs
 ```
+##在nfs client上启docker容器
+```
+[client]#docker run -i -t -rm --privileged -v /dev/sdb:/dev/sdb_test centos:latest /bin/bash
+```
+##在容器里查看共享目录
 ```shell
 [docker]# df -h
 Filesystem                                                                                        Size  Used Avail Use% Mounted on
