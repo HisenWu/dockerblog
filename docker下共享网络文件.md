@@ -135,6 +135,7 @@ tmpfs                            1.9G  4.0K  1.9G   1% /tmp
 tmpfs                            377M     0  377M   0% /run/user/0
 186.100.8.117:/home/nfs_share    3.1T  2.1G  3.0T   1% /home/client_nfs
 ```
+```
 [docker]# df -h
 Filesystem                                                                                        Size  Used Avail Use% Mounted on
 /dev/mapper/docker-253:1-656482-b663ad112f59849ba533cea1879c0e2744642dc817546bf37084d54fb6d20dea  9.8G  246M  9.0G   3% /
@@ -142,3 +143,4 @@ tmpfs                                                                           
 shm                                                                                                64M     0   64M   0% /dev/shm
 /dev/mapper/fedora--server-root                                                                    45G  4.9G   38G  12% /etc/hosts
 186.100.8.117:/home/nfs_share                                                                     3.1T  2.1G  3.0T   1% /home/docker_nfs
+```
