@@ -33,7 +33,7 @@ Fedora release 21 (Twenty One)
 Kernel \r on an \m (\l)  
 ```   
 ##安装NFS
-```
+```shell
 [nfs server]# rpm -qa | grep nfs
 libnfsidmap-0.26-2.1.fc21.x86_64
 nfs-utils-1.3.1-6.1.fc21.x86_64
@@ -67,7 +67,7 @@ NFS服务的配置文件为 `/etc/exports`，这个文件是NFS的主要配置�
 Redirecting to /bin/systemctl start  nfs.service
 ```
 ##查看NFS状态
-```
+```shell
 [nfs server]# service nfs status    
 Redirecting to /bin/systemctl status  nfs.service   
 ?.nfs-server.service - NFS server and services    
@@ -78,7 +78,7 @@ Redirecting to /bin/systemctl status  nfs.service
  Main PID: 1767 (code=exited, status=0/SUCCESS)
  ```
  ##查看端口信息
- ```
+ ```shell
 [nfs server]# rpcinfo -p
    program vers proto   port  service
     100000    4   tcp    111  portmapper
@@ -109,12 +109,12 @@ Redirecting to /bin/systemctl status  nfs.service
     100021    4   tcp  59360  nlockmgr
 ```
 ##在client上查看
-```
+```shell
 [client]# showmount -e  186.100.8.117
 clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)
 ```
 ###在client上使用 No route to host
-```	
+```shell
 [client]# mount -t nfs 186.100.8.117:/home/nfs_share /home/client_nfs/
 mount.nfs: Connection timed out
 ```
@@ -127,7 +127,7 @@ mount.nfs: Connection timed out
 mount.nfs: access denied by server while mounting 186.100.8.117:/home/nfs_share
 ```
 原来是把exports里面的地址配错了.
-```
+```shell
 [client]# df -h
 Filesystem                       Size  Used Avail Use% Mounted on
 /dev/mapper/fedora--server-root   45G  4.9G   38G  12% /
@@ -140,7 +140,7 @@ tmpfs                            1.9G  4.0K  1.9G   1% /tmp
 tmpfs                            377M     0  377M   0% /run/user/0
 186.100.8.117:/home/nfs_share    3.1T  2.1G  3.0T   1% /home/client_nfs
 ```
-```
+```shell
 [docker]# df -h
 Filesystem                                                                                        Size  Used Avail Use% Mounted on
 /dev/mapper/docker-253:1-656482-b663ad112f59849ba533cea1879c0e2744642dc817546bf37084d54fb6d20dea  9.8G  246M  9.0G   3% /
