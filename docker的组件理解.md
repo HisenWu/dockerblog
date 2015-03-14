@@ -12,3 +12,7 @@
 ###Overly与AUFS很类似，只有很少的地方有差别:
 * 只有两个分支only two branches (被称为文件层("layers"))
 * 但是分支只能进行自我覆盖
+###Docker Hub服务相关
+* login
+* pull / push
+* search
