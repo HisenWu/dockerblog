@@ -1,12 +1,8 @@
 ##目标：两台host主机透过一个网络接口共享磁盘设备（iSCSI）
         
-##具体的网络环境如下:
-+------------------------+　　　　　　　+---------------------------+　　+-------------------------------+        
-|　 [target] 　     | 　　　　　　　|　[    inititor    ]　 　|  　  　|　[ docker container ]　  |          
-|    /dev/loop8    +----------+---------+　/   /dev/sdb　+------+　 / /dev/sdb_test　|            
-|                 |　　　　　　 　|　( 186.100.8.117 )　| 　　 |　　　　　　　　　　|                
-+-----------------------+　　　 　　　　+---------------------------+  　　+-------------------------------+ 
 ---      
+
+>note：防火墙和selinux，本次关闭了防火墙
 
 ##target端和inititor端简单介绍
 * target端即磁盘阵列或其他装有磁盘的主机，server端。        
@@ -40,6 +36,7 @@ loop0         loop1         loop2         loop8         loop-control
 * 提供为装有SCSI initiator的其它操作系统提供块级（block-level）的SCSI存储。
 * Linux iSCSI target，通过网络向装有iSCSI initiator的系统提供存储服务。
 ###查看帮助文档   
+
 ```sh
 [target]# tgtadm --help   
 ```   
@@ -122,6 +119,11 @@ Target 1: iqn.2015-03.com.huawei:designDisk
 [initiator]# yum install iscsi-initiator-utils
 [initiator]# service iscsi start	
 ```
+###查看initiator没有连接target时的磁盘设备
+```sh
+[initiator]#ls /dev/sd*
+/dev/sda  /dev/sda1  /dev/sda2
+```
 ###搜索targets
 通过iscsiadm命令来搜索和登录到iSCSI的target，同时它也可以读取和访问open-iscsi提供的数据库。
 存储服务器(target)的ip地址为 186.100.8.117，输入：
@@ -135,10 +137,14 @@ lrwxrwxrwx. 1 root root  75 Mar 12 20:31 iqn.2015-03.com.huawei:designDisk,186.1
 //表明客户端已经成功发现服务端共享target并连接到本地上来了；  
 ```
 ###登陆到服务器target上
+```sh
 [initiator]# iscsiadm -m node -T iqn.2015-03.com.huawei:designDisk -p 186.100.8.117:3260 -l
 Logging in to [iface: default, target: iqn.2015-03.com.huawei:designDisk, portal: 186.100.8.117,3260] (multiple)
 Login to [iface: default, target: iqn.2015-03.com.huawei:designDisk, portal: 186.100.8.117,3260] successful.
-###
+```
+看到successful，证明已经登录成功了！
+###可以通过日志查看
+```sh
 [initiator]# tail -f /var/log/messages 
 Mar 12 20:37:22 localhost kernel: scsi 2:0:0:0: Attached scsi generic sg2 type 12
 Mar 12 20:37:22 localhost kernel: scsi 2:0:0:1: Direct-Access     IET      VIRTUAL-DISK     0001 PQ: 0 ANSI: 5
@@ -150,8 +156,9 @@ Mar 12 20:37:22 localhost kernel: sdb: unknown partition table
 Mar 12 20:37:22 localhost kernel: sd 2:0:0:1: [sdb] Attached SCSI disk
 Mar 12 20:37:23 localhost iscsid: Could not set session1 priority. READ/WRITE throughout and latency could be affected.
 Mar 12 20:37:23 localhost iscsid: Connection1:0 to [target: iqn.2015-03.com.huawei:designDisk, portal: 186.100.8.117,3260] through [iface: default] is operational now
-
-再查看target的信息
+```
+###在target上，再查看target的信息
+```sh
 [target]# tgtadm --lld iscsi --op show --mode target
 Target 1: iqn.2015-03.com.huawei:designDisk
     System information:
@@ -159,7 +166,7 @@ Target 1: iqn.2015-03.com.huawei:designDisk
         State: ready
     I_T nexus information:
         I_T nexus: 1
-            Initiator: iqn.1994-05.com.redhat:d468b65a421 alias: initiator1
+            **Initiator: iqn.1994-05.com.redhat:d468b65a421 alias: initiator1**
             Connection: 0
                 IP Address: 186.100.8.216
     LUN information:
@@ -194,20 +201,33 @@ Target 1: iqn.2015-03.com.huawei:designDisk
     Account information:
     ACL information:
         186.100.8.0/24
+```
+###查看initiator连接上target后的磁盘设备
+```sh
 [initiator]# ls /dev/sd*
 /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
+```
+可以看到,产生了一个sdb设备，这也就是target上的loop8设备。
 
-创建a.txt，并将其写入共享block
+##在initiator启docker容器，并将sdb与docker容器共享
+```sh
+[initiator]# docker run -i -t --rm --privileged -v /dev/sdb:dev/sdb_test centos /bin/bash
+```
+###共享设备测试
+####创建a.txt，并将其写入共享block
+```sh
 [initiator docker]# echo "hello world" >a.txt
 [initiator docker]# dd if=a.txt of=/dev/sdb_test 
 0+1 records in
 0+1 records out
 12 bytes (12 B) copied, 6.9711e-05 s, 172 kB/s
-
-验证：查看已修改的共享block
+```
+####验证：查看已修改的共享block
+```sh
 [target]# dd if=/dev/loop8 of=c.txt bs=512 count=1
 1+0 records in
 1+0 records out
 512 bytes (512 B) copied, 0.000108951 s, 4.7 MB/s
-[root@localhost yum.repos.d]# cat c.txt 
+[target]# cat c.txt 
 hello world
+```
