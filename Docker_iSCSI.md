@@ -134,8 +134,8 @@ Target 1: iqn.2015-03.com.huawei:designDisk
 [initiator 186.100.8.117,3260]#ll
 total 8
 lrwxrwxrwx. 1 root root  75 Mar 12 20:31 iqn.2015-03.com.huawei:designDisk,186.100.8.117,3260,1,default -> /var/lib/iscsi/nodes/iqn.2015-03.com.huawei:designDisk/186.100.8.117,3260,1
-//表明客户端已经成功发现服务端共享target并连接到本地上来了；  
-```
+```    
+表明客户端已经成功发现服务端共享target并连接到本地上来了；
 ###登陆到服务器target上
 ```sh
 [initiator]# iscsiadm -m node -T iqn.2015-03.com.huawei:designDisk -p 186.100.8.117:3260 -l
