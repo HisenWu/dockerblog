@@ -1,13 +1,28 @@
 CentOS下Rdo安装OpenStack
 =====
 
-###关闭防火墙:
+###准备工作
+####关闭防火墙:
+```sh
 service iptables stop        
 chkconfig iptables off
-
-###关闭selinux:
+```
+####关闭selinux:
+```sh
 vi /etc/sysconfig/selinux           
 SELINUX=disabled
+```
+
+####Stop and disable NetworkManager:
+```sh
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+systemctl enable network
+```
+####系统信息
+```sh
+centos 7
+```
 
 ###安装epel源
 
