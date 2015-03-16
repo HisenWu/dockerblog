@@ -1,58 +1,82 @@
-##目标：两台host主机共享磁盘设备
+##目标：两台host主机透过一个网络接口共享磁盘设备（iSCSI）
         
+##具体的网络环境如下:
++------------------------+　　　　　　　+---------------------------+　　+-------------------------------+        
+|　 [target] 　     | 　　　　　　　|　[    inititor    ]　 　|  　  　|　[ docker container ]　  |          
+|    /dev/loop8    +----------+---------+　/   /dev/sdb　+------+　 / /dev/sdb_test　|            
+|                 |　　　　　　 　|　( 186.100.8.117 )　| 　　 |　　　　　　　　　　|                
++-----------------------+　　　 　　　　+---------------------------+  　　+-------------------------------+ 
 ---      
 
+##target端和inititor端软件安装
+* target端即磁盘阵列或其他装有磁盘的主机，server端。        
+* 通过iscsitarget工具将磁盘空间映射到网络上，initiator端就可以寻找发现并使用该磁盘。     
+>注意，一个target主机上可以映射多个target到网络上，即可以映射多个块设备到网络上。       
+
+* initiator就是iSCSI传输的客户端，client端。
+* iSCSI initiator通过IP网络传输SCSI命令。
+
+```sh
+[]# yum install scsi-target-utils   
+```
+
 ##target端配置
-target端即磁盘阵列或其他装有磁盘的主机。        
-通过iscsitarget工具将磁盘空间映射到网络上，initiator端就可以寻找发现并使用该磁盘。
->注意，一个target主机上可以映射多个target到网络上，即可以映射多个块设备到网络上。
-
-
-##inititor端配置
-
-安装
-[root@localhost sbin]# yum install scsi-target-utils
-
-建立所需要分享的磁盘设备
-[root@localhost dev]# dd if=/dev/zero of=floppy.img bs=512 count=1880
+###建立大型文件，创建所需要分享的磁盘设备,loop8
+```sh
+[target dev]# dd if=/dev/zero of=floppy.img bs=512 count=1880
 1880+0 records in
 1880+0 records out
 962560 bytes (963 kB) copied, 0.0017846 s, 539 MB/s
-[root@localhost dev]# losetup /dev/lo
+[target dev]# losetup /dev/lo
 log           loop0         loop1         loop2         loop-control  
-[root@localhost dev]# losetup /dev/loop8 floppy.img 
-[root@localhost dev]# ll loop
+[target dev]# losetup /dev/loop8 floppy.img 
+[target dev]# ll loop
 loop0         loop1         loop2         loop8         loop-control
+```
 
+###tgtadm——Linux SCSI Target管理工具
 
-[root@localhost sbin]# tgtadm --lld iscsi --op new --mode target --tid 1 -T iqn.2015-03.com.huawei:designDisk
-[root@localhost sbin]# tgtadm --lld iscsi --op show --mode target
-Target 1: iqn.2015-03.com.huawei:designDisk
-    System information:
-        Driver: iscsi
-        State: ready
-    I_T nexus information:
-    LUN information:
-        LUN: 0
-            Type: controller
-            SCSI ID: IET     00010000
-            SCSI SN: beaf10
-            Size: 0 MB, Block size: 1
-            Online: Yes
-            Removable media: No
-            Prevent removal: No
-            Readonly: No
-            SWP: No
-            Thin-provisioning: No
-            Backing store type: null
-            Backing store path: None
-            Backing store flags: 
-    Account information:
-    ACL information:
+* tgtadm是用来监控、修改Linux SCSI target 的工具，包括target设置、卷设置，等。
+* 提供为装有SCSI initiator的其它操作系统提供块级（block-level）的SCSI存储。
+* Linux iSCSI target，通过网络向装有iSCSI initiator的系统提供存储服务。
+###查看帮助文档   
+```sh
+[target]# tgtadm --help   
+```   
+[参考](http://vbird.dic.ksu.edu.tw/linux_server/0460iscsi_2.php)
+>iSCSI 有一套自己分享 target 设备名的定义：    
+以iqn为开头，意思是：『iSCSI Qualified Name (iSCSI 合格名称)』。     
+iqn 后面通常是：`iqn.yyyy-mm.<reversed domain name>:identifier`     
+所以本次取名：**iqn.2015-03.com.huawei:designDisk**        
+iqn号是局域网内iSCSI target的唯一标识，用来区分不同的target，所以在一个网络内，iqn号一定不能相同!      
 
+###设定tgt的配置文件 /etc/tgt/targets.conf     
+添加下面几行配置代码：
+```sh
+[target]# vi /etc/tgt/targets.conf 
+<target iqn.2015-03.com.huawei:designDisk>
+backing-store /dev/loop8
+initiator-address 186.100.8.0/24
+</target>
+```
+以上配置等同于（===）
+```sh
+创建了一个id为1的target
+[target] tgtadm --lld iscsi --op new --mode target --tid 1 -T iqn.2015-03.com.huawei:designDisk 
 添加访问控制列表
 [root@localhost dev]# tgtadm --lld iscsi --op bind --mode target --tid 1 -I 186.100.8.0/24
-[root@localhost dev]# tgtadm --lld iscsi --op show --mode target
+添加LUN（logical unit）
+[root@localhost dev]# tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 1 -b /dev/loop8
+```
+###重启服务    
+```sh
+[target]# service iscsi start
+```
+###查看target端的配置信息
+```sh
+[target]# tgt-admin --show     
+等同于（===）  
+[target]# tgtadm --lld iscsi --op show --mode target
 Target 1: iqn.2015-03.com.huawei:designDisk
     System information:
         Driver: iscsi
@@ -90,50 +114,9 @@ Target 1: iqn.2015-03.com.huawei:designDisk
     Account information:
     ACL information:
         186.100.8.0/24
-    	
+```
 
-添加LUN（logical unit）
-[root@localhost dev]# tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 1 -b /dev/loop8
-
-[root@localhost dev]# tgtadm --lld iscsi --op show --mode target
-Target 1: iqn.2015-03.com.huawei:designDisk
-    System information:
-        Driver: iscsi
-        State: ready
-    I_T nexus information:
-    LUN information:
-        LUN: 0
-            Type: controller
-            SCSI ID: IET     00010000
-            SCSI SN: beaf10
-            Size: 0 MB, Block size: 1
-            Online: Yes
-            Removable media: No
-            Prevent removal: No
-            Readonly: No
-            SWP: No
-            Thin-provisioning: No
-            Backing store type: null
-            Backing store path: None
-            Backing store flags: 
-        LUN: 1
-            Type: disk
-            SCSI ID: IET     00010001
-            SCSI SN: beaf11
-            Size: 1 MB, Block size: 512
-            Online: Yes
-            Removable media: No
-            Prevent removal: No
-            Readonly: No
-            SWP: No
-            Thin-provisioning: No
-            Backing store type: rdwr
-            Backing store path: /dev/loop8
-            Backing store flags: 
-    Account information:
-    ACL information:
-
-	
+##initiator端配置
 [initiator]# yum install iscsi-initiator-utils
 
 [initiator]# service iscsi start	
