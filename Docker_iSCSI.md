@@ -69,7 +69,7 @@ initiator-address 186.100.8.0/24
 ```
 ###重启服务    
 ```sh
-[target]# service iscsi start
+[target]# service tgtd restart
 ```
 ###查看target端的配置信息
 ```sh
