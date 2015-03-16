@@ -49,22 +49,24 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 ```
 >**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
-####安装openstack源
-注意这里单独创建openstack的源。
-```sh
-[host]# vi openstack.repo 
-#base
-[base]
-name=OpenStack-$releasever - Base
-
-baseurl=http://186.100.8.148/repo/openstack/openstack-juno/epel-7/
-enable=1
-gpgcheck=0
-
-```
 ####安装RDO源
+```sh
 [host]# yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+```
+将里面的源地址替换为本机源地址，如下：
+```sh
+[host]#vi rdo-release.repo 
 
+[openstack-juno]
+name=OpenStack Juno Repository
+#baseurl=http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7/
+//替换为本地源
+baseurl=http://186.100.8.148/repo/openstack/openstack-juno/epel-7/
+enabled=1
+skip_if_unavailable=0
+gpgcheck=0    //修改为不检验
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RDO-Juno
+```
 ####安装epel源
 由于缺少，后面出现了问题。这个源，部门服务器也有。
 ```sh
