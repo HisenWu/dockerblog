@@ -236,3 +236,8 @@ Target 1: iqn.2015-03.com.huawei:designDisk
 [target]# cat c.txt 
 hello world
 ```
+
+参考文章：
+http://vbird.dic.ksu.edu.tw/linux_server/0460iscsi_2.php
+http://blog.csdn.net/vah101/article/details/6299989
+http://www.cnblogs.com/whatcanyou/archive/2012/03/22/2411118.html
