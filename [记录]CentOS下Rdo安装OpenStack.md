@@ -1,7 +1,7 @@
 CentOS下Rdo安装OpenStack
 =====
 
-###准备工作
+###1. 准备工作
 ####关闭防火墙:
 ```sh
 service iptables stop        
@@ -24,7 +24,7 @@ systemctl enable network
 centos 7
 ```
 
-###安装epel源
+###2. 安装epel源
 
 ####备份原来的repo
 ```sh
@@ -44,7 +44,7 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 ```
 
 
-###安装rdo与Packstack
+###3. 安装rdo与Packstack
 
 ####安装rdo
 ```sh
