@@ -1,7 +1,8 @@
 ##目标：两台host主机透过一个网络接口共享磁盘设备（iSCSI）
         
----      
-target(/dev/loop8) ---> initiator(/dev/sdb) ---> initiator_docker(dev/sdb_test)
+--- 
+##共享设备的主机和名字
+**target(/dev/loop8) ---> initiator(/dev/sdb) ---> initiator_docker(dev/sdb_test)**
 
 >note：防火墙和selinux，本次关闭了防火墙
 
