@@ -23,8 +23,14 @@ systemctl enable network
 ```sh
 centos 7
 ```
-
-###2. 安装epel源
+####配置网络代理
+```sh
+[host]# export http_proxy=http://186.100.4.131:808
+[host]# export https_proxy=http://186.100.4.131:808
+[host]# export no_proxy="186.100.8.148"
+```
+###2. 安装相关的源
+相关源安装相当重要，直接关系到是否可以配置成功！
 
 ####备份原来的repo
 ```sh
@@ -36,16 +42,33 @@ CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
 [root@localhost yum.repos.d]# ls
 CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
 ```
-####替换为国内（ali）的源
+####替换为国内的源
 ```sh
+安装ali源，参考ali的源
 [host]# vi CentOS-Base.repo
-参考ali的源
-[host]# yum makecache
+```
+**这里用部门服务器的源，具体参见附录。**
+
+####安装icehouse源
+[host]# yum install -y http://rdo.fedorapeople.org/openstack-icehouse/rdo-release-icehouse.rpm 
+
+####安装epel源
+由于缺少，后面出现了问题。这个源，部门服务器也有。
+```sh
+[host]# yum install -y http://186.100.8.148/repo/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 ```
 
+####刷新yum源缓存
+```sh
+[host]# yum clean metadata
+[host]# yum makecache
+```
+>小技巧：
+可以通过上面命令看出哪些源是不可以找到的，方便找出错误。
 
 ###3. 安装rdo与Packstack
 
+*-*-*-*-*-*-*-*
 ####安装rdo
 ```sh
 [host]# wget https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/rdo-release-icehouse-4.noarch.rpm
@@ -54,6 +77,8 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 或者
 [host]# yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 ```
+*-*-*-*-*-*-*-*
+
 ####安装openstack-packstack
 ```sh
 [host]# yum install -y openstack-packstack
