@@ -70,6 +70,9 @@ initiator-address 186.100.8.0/24
 ###重启服务    
 ```sh
 [target]# service tgtd restart
+[target]# netstat -tlunp | grep tgt
+tcp        0      0 0.0.0.0:3260            0.0.0.0:*               LISTEN      3896/tgtd           
+tcp6       0      0 :::3260                 :::*                    LISTEN      3896/tgtd 
 ```
 ###查看target端的配置信息
 ```sh
