@@ -8,7 +8,7 @@
 +-----------------------+　　　 　　　　+---------------------------+  　　+-------------------------------+ 
 ---      
 
-##target端和inititor端软件安装
+##target端和inititor端简单介绍
 * target端即磁盘阵列或其他装有磁盘的主机，server端。        
 * 通过iscsitarget工具将磁盘空间映射到网络上，initiator端就可以寻找发现并使用该磁盘。     
 >注意，一个target主机上可以映射多个target到网络上，即可以映射多个块设备到网络上。       
@@ -16,11 +16,11 @@
 * initiator就是iSCSI传输的客户端，client端。
 * iSCSI initiator通过IP网络传输SCSI命令。
 
-```sh
-[]# yum install scsi-target-utils   
-```
-
 ##target端配置
+###软件安装
+```sh
+[target]# yum install scsi-target-utils   
+```
 ###建立大型文件，创建所需要分享的磁盘设备,loop8
 ```sh
 [target dev]# dd if=/dev/zero of=floppy.img bs=512 count=1880
@@ -117,24 +117,28 @@ Target 1: iqn.2015-03.com.huawei:designDisk
 ```
 
 ##initiator端配置
+###软件安装和服务启动
+```sh
 [initiator]# yum install iscsi-initiator-utils
-
 [initiator]# service iscsi start	
-
+```
+###搜索targets
+通过iscsiadm命令来搜索和登录到iSCSI的target，同时它也可以读取和访问open-iscsi提供的数据库。
+存储服务器(target)的ip地址为 186.100.8.117，输入：
+```sh
 [initiator]# iscsiadm -m discovery -t sendtargets -p 186.100.8.117
 186.100.8.117:3260,1 iqn.2015-03.com.huawei:designDisk
-
 [initiator]# cd /var/lib/iscsi/send_targets/186.100.8.117,3260/
 [initiator 186.100.8.117,3260]#ll
 total 8
 lrwxrwxrwx. 1 root root  75 Mar 12 20:31 iqn.2015-03.com.huawei:designDisk,186.100.8.117,3260,1,default -> /var/lib/iscsi/nodes/iqn.2015-03.com.huawei:designDisk/186.100.8.117,3260,1
 //表明客户端已经成功发现服务端共享target并连接到本地上来了；  
-
-登陆到服务器target上
+```
+###登陆到服务器target上
 [initiator]# iscsiadm -m node -T iqn.2015-03.com.huawei:designDisk -p 186.100.8.117:3260 -l
 Logging in to [iface: default, target: iqn.2015-03.com.huawei:designDisk, portal: 186.100.8.117,3260] (multiple)
 Login to [iface: default, target: iqn.2015-03.com.huawei:designDisk, portal: 186.100.8.117,3260] successful.
-
+###
 [initiator]# tail -f /var/log/messages 
 Mar 12 20:37:22 localhost kernel: scsi 2:0:0:0: Attached scsi generic sg2 type 12
 Mar 12 20:37:22 localhost kernel: scsi 2:0:0:1: Direct-Access     IET      VIRTUAL-DISK     0001 PQ: 0 ANSI: 5
