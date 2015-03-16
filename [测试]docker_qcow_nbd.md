@@ -139,7 +139,8 @@ create file in container
 ```
 4 查看
 ```
-   [root@localhost ~]#df -h
+   [root@localhost ~]#df -h 
+   另外，(-T)可以查看block设备所制作的文件系统。
 ```
 
 
