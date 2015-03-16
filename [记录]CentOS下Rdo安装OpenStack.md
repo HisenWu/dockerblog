@@ -47,10 +47,23 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 安装ali源，参考ali的源
 [host]# vi CentOS-Base.repo
 ```
-**这里用部门服务器的源，具体参见附录。**
+>**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
-####安装icehouse源
-[host]# yum install -y http://rdo.fedorapeople.org/openstack-icehouse/rdo-release-icehouse.rpm 
+####安装openstack源
+注意这里单独创建openstack的源。
+```sh
+[host]# vi openstack.repo 
+#base
+[base]
+name=OpenStack-$releasever - Base
+
+baseurl=http://186.100.8.148/repo/openstack/openstack-juno/epel-7/
+enable=1
+gpgcheck=0
+
+```
+####安装RDO源
+[host]# yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
 
 ####安装epel源
 由于缺少，后面出现了问题。这个源，部门服务器也有。
