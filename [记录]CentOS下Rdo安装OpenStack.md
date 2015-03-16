@@ -49,6 +49,13 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 ```
 >**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
+####安装epel源
+由于缺少，后面出现了问题。这个源，部门服务器也有。
+```sh
+[host]# yum install -y http://186.100.8.148/repo/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+```
+>在/etc/yum.repo.d/下，会生成相应的epel.repo源文件。          
+上面两步，就是基本的配置本地yum源的过程。
 ####安装RDO源
 ```sh
 [host]# yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
@@ -66,11 +73,6 @@ enabled=1
 skip_if_unavailable=0
 gpgcheck=0    //修改为不检验
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RDO-Juno
-```
-####安装epel源
-由于缺少，后面出现了问题。这个源，部门服务器也有。
-```sh
-[host]# yum install -y http://186.100.8.148/repo/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 ```
 
 ####刷新yum源缓存
