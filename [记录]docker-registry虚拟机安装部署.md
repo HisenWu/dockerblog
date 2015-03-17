@@ -105,7 +105,7 @@ server.key
 ```sh
 [registry]# openssl req -new -key server.key -out server.csr    
 ```
-//生成的csr文件交给CA签名后形成服务端自己的证书
+//生成的csr文件交给CA签名后形成服务端自己的证书            
 //该命令将提示用户输入密钥口令并填写证书相关信息字段，输出如下：
 ```
 Country Name (2 letter code) [XX]:cn
@@ -126,13 +126,33 @@ An optional company name []:
 
 3. 去除key文件口令的命令
 以后每当需读取此文件(通过openssl提供的命令或API)都需输入口令。        
-如果觉得不方便,也可以去除这个口令,但一定要采取其他的保护措施!
+如果觉得不方便,也可以去除这个口令,但一定要采取其他的保护措施!          
 **openssl rsa -in server.key.org -out service-index.key**
 ```sh
 [registry]# openssl rsa -in server.key -out service-index.key
 Enter pass phrase for server.key:
 writing RSA key
 ```
-####
+####生成自签名
 **openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt**
+* -x509      
+生成一份 X.509 证书          
+* -days 365            
+从生成之时算起，证书时效为 365 天     
+
+```sh
+[registry]# openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt
+Signature ok
+subject=/C=ww/ST=sx/L=xa/O=some Ltd/OU=desing\x08\x08\x08\x08/CN=www.abc.com/emailAddress=aaa
+Getting Private key
+```
+###registry证书生成过程一样（Common Name需输入registry.abc.com）
+
+###总结生成自签名的过程：
+* 生成一个没有加密的ca私钥
+openssl genrsa -out server.key 1024
+* 生成ca对应的csr文件
+openssl req -new -key server.key.pem -out server.csr
+*　自签名
+openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt
 
