@@ -29,43 +29,60 @@ centos 7
 ####备份原来的repo
 ```sh
 [root@localhost ~]# cd /etc/yum.repos.d/
-[root@localhost yum.repos.d]# ls
-CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
-
 [root@localhost yum.repos.d]# mv CentOS-Base.repo CentOS-Base.repo.backup
 [root@localhost yum.repos.d]# ls
 CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
 ```
 ####替换为本地的源
 ```sh
+
 [host]# vi CentOS-Base.repo
+#base
+[base]
+name=CentOS-$releasever - Base
+baseurl=http://186.100.x.xx/repo/centos/$releasever/os/$basearch/
+enable=1
+gpgcheck=0
+
+#released updates 
+[updates]
+name=CentOS-$releasever - Updates
+baseurl=http://186.100.x.xx/repo/centos/$releasever/updates/$basearch/
+enable=1
+gpgcheck=0
+
+#additional packages that may be useful
+[extras]
+name=CentOS-$releasever - Extras
+baseurl=http://186.100.x.xx/repo/centos/$releasever/extras/$basearch/
+enable=1
+gpgcheck=0
 ```
 >**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
 ####安装epel源
 添加本地epel源地址，如下：
 ```sh
-[host]# yum install -y http://186.100.8.148/repo/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+[host]# vi epel.repo
+
+
+[epel]
+name=Extra Packages for Enterprise Linux 7 - $basearch
+baseurl=http://186.100.8.148/repo/epel/7/x86_64/
+failovermethod=priority
+enabled=1
+gpgcheck=0
+
 ```       
-
->在/etc/yum.repo.d/下，会生成相应的epel.repo源文件。       
-
-上面两步，就是基本的配置本地yum源的过程。      
-
+   
 ####安装RDO源      
 添加本地rdo源地址，如下：
 ```sh
 [host]# vi rdo.repo
 
-
-```
-
-```sh
-[host]#vi rdo-release.repo 
-
 [openstack-juno]
 name=OpenStack Juno Repository
-baseurl=http://186.100.8.148/repo/openstack/openstack-juno/epel-7/
+baseurl=http://186.100.x.xx/repo/openstack/openstack-juno/epel-7/
 enabled=1
 skip_if_unavailable=0
 gpgcheck=0    
@@ -87,7 +104,7 @@ gpgcheck=0
 [host]# packstack --allinone
 ```
 
-###在利用网上教程安装opensatck的时候，遇到了下面的问题！
+###在安装opensatck的时候，遇到了下面的问题！
 ####在这一步，遇到了问题。查看日志可以看出，下载下面三个包的时候出错：
 ```sh
 Error downloading packages:
