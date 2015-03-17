@@ -84,9 +84,9 @@ Writing superblocks and filesystem accounting information: done
 本地的qcow2镜像（文件）映射到网络设备nbd0,为网络设备nbd0制作文件系统，挂载到/mnt下，
 执行操作（添加a.txt文件）相当于写入到nbd0（有文件系统）里，其实最终是写入到qcow2这个文件里了，后面可以通过tail查看。
 ```
-[root@localhost client_nfs]# ll /dev/nbd0*
+[client]# ll /dev/nbd0*
 brw-rw----. 1 root disk 43, 0 Mar 13 20:32 /dev/nbd0
-[root@localhost client_nfs]# mount /dev/nbd0 /mnt/
+[client]# mount /dev/nbd0 /mnt/
 ```
 
 ##容器中的操作
@@ -102,13 +102,23 @@ a.txt  lost+found
 [root@1029c2713302 mnt]# ls /mnt/
 a.txt  container.txt  lost+found
 ```
-###在client查看增加的文件
+###在client查看容器里增加的文件
 ```sh
-[root@localhost client_nfs]# mount /dev/nbd1 /mnt/
-[root@localhost client_nfs]# ls /mnt/
+[client]# mount /dev/nbd1 /mnt/
+[client]# ls /mnt/
 a.txt  container.txt  lost+found
 ```
-###解除关联和卸载nbd设备
+##server上查看容器（container.txt）和client（a.txt）上新增的文件
+```sh
+[server]# cd /home/nfs_share
+[server nfs_share]# qemu-nbd -c /dev/nbd10 share_nfs.qcow2 
+[server nfs_share]# mount /dev/nbd10 /mnt/
+[server nfs_share]# cd /mnt/
+[server mnt]# ls
+a.txt  container.txt  lost+found
+```
+
+##解除关联和卸载nbd设备
 使用完这个qcow2镜像后，卸载已挂载的nbd设备，解除qcow2镜像与nbd设备的关联。
 ```sh
 [client]# umount /mnt
