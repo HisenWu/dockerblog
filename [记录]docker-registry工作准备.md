@@ -16,6 +16,9 @@
 [opensatck ~(keystone_admin)]# keystone role-list
 ```
 ----
-###再装了两台centos虚拟机分别为：
-1. 一台装docker，作为客户端。
-2. 一台安装registry，通过index与keystone连接验证。
+###再装了两台centos虚拟机分别为：     
+都进行网络、yum源配置（base和epel）
+
+1. 一台安装`registry`，通过index与keystone连接验证。（xx.xx.40.212）
+2. 一台装`docker`，作为客户端。（xx.xx.40.213）
+3. 在docker作为host，再运行一个容器（bridge方式），但是问题来了？网如何配通？
