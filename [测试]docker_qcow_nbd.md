@@ -20,7 +20,10 @@ Formatting 'nfs_test.qcow2', fmt=qcow2 size=5368709120 encryption=off cluster_si
 ```
 ###在client上，通过qemu-nbd工具，连接/dev/nbd0和nfs_test.qcow2     
 
-将qcow2镜像映射为网络块设备(nbd)
+将qcow2镜像映射为网络块设备(nbd)      
+
+>  -c, --connect=DEV    connect FILE to the local NBD device DEV       
+
 ```
 [client]# qemu-nbd -c /dev/nbd0 nfs_test.qcow2 
 Failed to open /dev/nbd0: No such file or directory
