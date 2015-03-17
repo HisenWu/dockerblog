@@ -149,10 +149,10 @@ Getting Private key
 ###registry证书生成过程一样（Common Name需输入registry.abc.com）
 
 ###总结生成自签名的过程：
-* 生成一个没有加密的ca私钥
-openssl genrsa -out server.key 1024
-* 生成ca对应的csr文件
-openssl req -new -key server.key.pem -out server.csr    
-* 自签名
-openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt
+* 生成一个没有加密的ca私钥       
+`openssl genrsa -out server.key 1024`
+* 生成ca对应的csr文件          
+`openssl req -new -key server.key.pem -out server.csr`
+* 自签名         
+`openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt`
 
