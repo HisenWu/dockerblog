@@ -99,6 +99,7 @@ gpgcheck=0
 ```sh
 [host]# yum install -y openstack-packstack
 ```
+
 ####安装和运行openstack 
 ```sh
 [host]# packstack --allinone
@@ -112,41 +113,16 @@ Error downloading packages:
   python-kitchen-1.1.1-5.el7.noarch: [Errno 256] No more mirrors to try.
   python-chardet-2.0.1-7.el7.noarch: [Errno 256] No more mirrors to try.
 ```
-####单独搜索安装
+####不能用上面的packstack --allinone
+需要修改 ~/packstack-answer-xxx-xxx.txt文件里面一个参数
 ```sh
-[host]# yum search yum-utils
-[host]# packstack --allinone
-Warning: NetworkManager is active on 186.100.40.211. 
-OpenStack networking currently does not work on systems that have the Network Manager service enabled.
+[host]# cd ~ 
+[host ~]# vi packstack-answers-20150316-224116.txt
+//在文件里查找EPEL，将后面赋值由 n 改为 y 
+
+[host ~]# packstack --answer-file=./packstack-answers-20150316-224116.txt 
 ```
-**看来是要关闭网络**
-```sh
-[root@localhost ~]# chkconfig NetworkManager off
-Note: Forwarding request to 'systemctl disable NetworkManager.service'.
-[root@localhost ~]# systemctl disable NetworkManager.service
-```
-####需要配置epel源，将外网配置上！？
-```sh
-stderr: Warning: Permanently added '186.100.40.211' (ECDSA) to the list of known hosts.
-+ trap t ERR
-+ yum install -y puppet hiera openssh-clients tar nc rubygem-json
-Error: Package: hiera-1.0.0-3.el6.noarch (epel)
-           Requires: ruby(abi) = 1.8
-Error: Package: facter-1.6.18-3.el6.x86_64 (epel)
-           Requires: ruby(abi) = 1.8
-Error: Package: ruby-augeas-0.4.1-1.el6.x86_64 (epel)
-           Requires: ruby(abi) = 1.8
-Error: Package: ruby-shadow-1.4.1-13.el6.x86_64 (epel)
-           Requires: ruby(abi) = 1.8
-Error: Package: puppet-2.7.25-2.el6.noarch (epel)
-           Requires: ruby(abi) >= 1.8
-Error: Package: ruby-augeas-0.4.1-1.el6.x86_64 (epel)
-           Requires: libruby.so.1.8()(64bit)
-Error: Package: ruby-shadow-1.4.1-13.el6.x86_64 (epel)
-           Requires: libruby.so.1.8()(64bit)
-++ t
-++ exit 1
-```
+####接下来，需要耐心等待！
          
 **如果你安装不该安装的包**
 ```
