@@ -33,8 +33,10 @@ docker_registry  docker_registry_backup  test
 
 ```sh
 # By default, the registry acts standalone (eg: doesn't query the index)
+    # standalone: _env:STANDALONE:true
     standalone: _env:STANDALONE:false   //modify
 # The default endpoint to use (if NOT standalone) is index.docker.io
+    #index_endpoint: _env:INDEX_ENDPOINT:https://index.docker.io
     index_endpoint: _env:INDEX_ENDPOINT:https://www.abc.com    //modify
 # Storage redirect is disabled
     storage_redirect: _env:STORAGE_REDIRECT
@@ -49,6 +51,7 @@ swift: &swift
     storage: swift
     storage_path: _env:STORAGE_PATH:/registry
     # keystone authorization
+    //都增加了+后面的东西
     swift_authurl: _env:OS_AUTH_URL + :"https://localdomain.com:8023/identity/v2.0"
     swift_container: _env:OS_CONTAINER + :docker
     swift_user: _env:OS_USERNAME + :nova
