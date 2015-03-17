@@ -23,12 +23,6 @@ systemctl enable network
 ```sh
 centos 7
 ```
-####配置网络代理
-```sh
-[host]# export http_proxy=http://186.100.4.131:808
-[host]# export https_proxy=http://186.100.4.131:808
-[host]# export no_proxy="186.100.8.148"
-```
 ###2. 安装相关的源
 相关源安装相当重要，直接关系到是否可以配置成功！
 
@@ -42,15 +36,14 @@ CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
 [root@localhost yum.repos.d]# ls
 CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vault.repo
 ```
-####替换为国内的源
+####替换为本地的源
 ```sh
-安装ali源，参考ali的源
 [host]# vi CentOS-Base.repo
 ```
 >**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
 ####安装epel源
-由于缺少，后面出现了问题。这个源，部门服务器也有。
+添加本地epel源地址，如下：
 ```sh
 [host]# yum install -y http://186.100.8.148/repo/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 ```       
@@ -59,25 +52,24 @@ CentOS-Base.repo.backup  CentOS-Debuginfo.repo  CentOS-Sources.repo  CentOS-Vaul
 
 上面两步，就是基本的配置本地yum源的过程。      
 
-####安装RDO源
+####安装RDO源      
+添加本地rdo源地址，如下：
 ```sh
-[host]# yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+[host]# vi rdo.repo
+
+
 ```
-将里面的源地址替换为本机源地址，如下：
+
 ```sh
 [host]#vi rdo-release.repo 
 
 [openstack-juno]
 name=OpenStack Juno Repository
-#baseurl=http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7/
-//替换为本地源
 baseurl=http://186.100.8.148/repo/openstack/openstack-juno/epel-7/
 enabled=1
 skip_if_unavailable=0
-gpgcheck=0    //修改为不检验
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RDO-Juno
+gpgcheck=0    
 ```
-
 ####刷新yum源缓存
 ```sh
 [host]# yum clean metadata
@@ -94,6 +86,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RDO-Juno
 ```sh
 [host]# packstack --allinone
 ```
+
+###在利用网上教程安装opensatck的时候，遇到了下面的问题！
 ####在这一步，遇到了问题。查看日志可以看出，下载下面三个包的时候出错：
 ```sh
 Error downloading packages:
