@@ -32,6 +32,7 @@ nbd.c:nbd_receive_request():L756: read failed
 CONFIG_BLK_DEV_NBD=m
 ```
 ###内核加载nbd模块
+max_part这个参数指定了一个nbd设备可以有多少个分区。
 ```
 [client]# modprobe nbd max_part=16
 ```
