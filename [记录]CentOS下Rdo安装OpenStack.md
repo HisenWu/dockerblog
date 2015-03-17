@@ -58,7 +58,6 @@ baseurl=http://186.100.x.xx/repo/centos/$releasever/extras/$basearch/
 enable=1
 gpgcheck=0
 ```
->**这里用部门服务器的源，具体参见附录。(就是之前配置本地服务器的源）**
 
 ####安装epel源
 添加本地epel源地址，如下：
