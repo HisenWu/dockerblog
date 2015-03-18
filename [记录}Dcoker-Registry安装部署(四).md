@@ -12,11 +12,13 @@ Apache在Linux系统中，其实叫“httpd”，使用yum安装Apache：
 
 ####1. 安装Apache        
 ```sh
-yum install httpd
+[registry]# yum install httpd
 ```      
 ####2. 设置Apache服务的启动级别
 ```sh
-chkconfig --levels 235 httpd on
+[registry]# chkconfig --levels 235 httpd on
+Note: Forwarding request to 'systemctl enable httpd.service'.
+ln -s '/usr/lib/systemd/system/httpd.service' '/etc/systemd/system/multi-user.target.wants/httpd.service'
 ```
 >Apache是一个服务，所以，可以通过设置服务的启动级别来让它启动。             
 >等级0表示：表示关机         
@@ -29,7 +31,8 @@ chkconfig --levels 235 httpd on
        
 ####3. 现在就启动它    
 ```sh
-/etc/init.d/httpd start
+[registry]# service httpd start
+Redirecting to /bin/systemctl start  httpd.service
 ```
 
 ####4. 验证是否安装成功       
