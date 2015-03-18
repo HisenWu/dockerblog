@@ -15,14 +15,14 @@ Docker Registry虚拟机配置
 * 从registry虚拟机上拷贝两个证书到docker客户端
 ```
 [registry]# scp /etc/service-registry.crt root@xxx.xxx.40.213:/home/
-The authenticity of host '186.100.40.213 (186.100.40.213)' can't be established.
-ECDSA key fingerprint is 9b:f4:e7:a3:d3:a6:2a:c0:1a:4b:d8:ba:69:9c:ec:cf.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '186.100.40.213' (ECDSA) to the list of known hosts.
 root@186.100.40.213's password: 
 service-registry.crt
-[registry]# scp /etc/service-index.crt root@xxx.xxx.40.213:/home/
+[registry]# scp /etc/server-index.crt root@186.100.40.213:/home/
+root@186.100.40.213's password: 
+server-index.crt  
 ```
+>注意：上面一个service-registry.crt，生成的时候名字输入为此。      
+
 * 加入到可信列表   
 ```
 [docker]# cat /home/service-registry.crt >> /etc/ssl/certs/ca-bundle.crt      
