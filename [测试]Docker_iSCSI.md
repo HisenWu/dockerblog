@@ -36,9 +36,9 @@ loop0         loop1         loop2         loop8         loop-control
 
 * tgtadm是用来监控、修改Linux SCSI target 的工具，包括target设置、卷设置，等。
 * 提供为装有SCSI initiator的其它操作系统提供块级（block-level）的SCSI存储。
-* Linux iSCSI target，通过网络向装有iSCSI initiator的系统提供存储服务。
-###查看帮助文档   
+* Linux iSCSI target，通过网络向装有iSCSI initiator的系统提供存储服务。     
 
+###查看帮助文档，对命令参数进行一点了解   
 ```sh
 [target]# tgtadm --help   
 ```   
