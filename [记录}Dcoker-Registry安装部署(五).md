@@ -28,3 +28,9 @@ server-index.crt
 [docker]# cat /home/service-registry.crt >> /etc/ssl/certs/ca-bundle.crt      
 [docker]# cat /home/service-index.crt >> /etc/ssl/certs/ca-bundle.crt
 ```
+* 增加vi域名的解析     
+将registry虚拟机的ip与www.abc.com、registry.abc.com对应。
+```
+[docker]#vi /etc/hosts
+xxx.xxx.40.212 www.abc.com registry.abc.com
+```
