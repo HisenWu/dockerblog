@@ -177,3 +177,8 @@ Signature ok
 subject=/C=cn/ST=ss/L=xx/O=ss/OU=uu/CN=registry.abc.com
 Getting Private key
 ```
+###查看最终生成的文件
+```sh
+[registry certify]# ls
+registry.csr  registry-index.crt  registry.key  server.csr  server.key  service-index.crt  service-index.key
+```
