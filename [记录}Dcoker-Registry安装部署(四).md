@@ -52,7 +52,7 @@ Redirecting to /bin/systemctl start  httpd.service
 [registry]# /etc/httpd/conf.d
 [registry]# vi wsgi-docker-index.conf
 
-<VirtulHost *:443>
+<VirtualHost *:443>
     ServerName www.abc.com
     DocumentRoot /usr/lib/python2.7/site-packages/docker_index
     WSGIScriptAlias /  /usr/lib/python2.7/site-packages/docker_index/wsgi.py
