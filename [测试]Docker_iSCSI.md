@@ -38,7 +38,7 @@ loop0         loop1         loop2         loop8         loop-control
 * 提供为装有SCSI initiator的其它操作系统提供块级（block-level）的SCSI存储。
 * Linux iSCSI target，通过网络向装有iSCSI initiator的系统提供存储服务。     
 
-###查看帮助文档，对命令参数进行一点了解   
+**查看帮助文档，对命令参数进行一点了解**           
 ```sh
 [target]# tgtadm --help   
 ```   
