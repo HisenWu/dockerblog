@@ -123,6 +123,7 @@ Error downloading packages:
 ```
 ####接下来，需要耐心等待！
          
+-----
 **如果你安装不该安装的包**
 ```
 rpm -qa | grep xxx
