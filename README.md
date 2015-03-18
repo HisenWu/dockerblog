@@ -19,12 +19,12 @@
 * Fangfenghua ([@方锋华](http://weibo.com/u/5539881396)）     
 
 ###联系我们   
-微博：**hluo_华为云计算**            
+微博：[hluo_华为云计算][1]            
 QQ群：**140364735**     
 
 ![hluo_华为云计算](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png)
 ![QQ群](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_qq_group.png)
 
      
-[hluo_华为云计算]: http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png
+[1]: http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png
 
