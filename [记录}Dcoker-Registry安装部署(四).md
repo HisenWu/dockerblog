@@ -6,8 +6,8 @@ Docker Registry虚拟机配置
 * Index Vhost配置
 * Registry Vhost配置      
 
-###
- 
+###Registry Vhost配置
+
 
 
 
