@@ -1,4 +1,4 @@
-经过折腾，在浏览器终于可以看到OpenStack的图标了。搭建过程参考：[CentOS下Rdo安装OpenStack](https://github.com/HisenWu/dockerblog/blob/master/%5B记录%5DCentOS下Rdo安装OpenStack.md)
+经过折腾，在浏览器终于可以看到OpenStack的图标了。          搭建过程参考：[CentOS下Rdo安装OpenStack](https://github.com/HisenWu/dockerblog/blob/master/%5B%E8%AE%B0%E5%BD%95%5DDcoker-Registry%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2(%E4%B8%80).md)
 
 ###浏览器查看操作
 接下来，登陆上浏览器，用户名和密码，查看~/keystonerc_admin文件。     
