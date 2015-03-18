@@ -88,7 +88,7 @@ LoadModule wsgi_module /usr/lib64/httpd/modules/mod_wsgi.so
 ...
 ```
 通过分析，可以知道：/etc/httpd/conf.modules.d下面的配置文件均可以被加载。      
-在/etc/httpd/conf/httpd.conf 文件里面有：Include conf.modules.d/*.conf。
+由于在`/etc/httpd/conf/httpd.conf` 文件里面有：`Include conf.modules.d/*.conf`。
 ```sh
 [registry conf.modules.d]# ls
 00-base.conf  00-dav.conf  00-lua.conf  00-mpm.conf  00-proxy.conf  00-systemd.conf  01-cgi.conf  10-wsgi.conf
@@ -100,13 +100,12 @@ lrwxrwxrwx. 1 root root   29 Mar 17 22:37 modules -> ../../usr/lib64/httpd/modul
 ...
 ```
 最终就是加载了/usr/lib64/httpd/modules下的module，mod_wsgi.so当然也就会被加载。      
+
+**这一步只需要：重启服务**
 ```sh
-//重启服务
 [registry]# service httpd restart
 Redirecting to /bin/systemctl restart  httpd.service
 ```
-
-
 ####
 
 
