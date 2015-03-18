@@ -54,26 +54,28 @@ Redirecting to /bin/systemctl start  httpd.service
 
 <VirtulHost *:443>
     ServerName www.abc.com
-    DocumentRoot /usr/lib64/python2.6/site-packages/docker_index
-    WSGIScriptAlias /  /usr/lib64/python2.6/site-packages/docker_index/wsgi.py
+    DocumentRoot /usr/lib/python2.7/site-packages/docker_index
+    WSGIScriptAlias /  /usr/lib/python2.7/site-packages/docker_index/wsgi.py
     ErrorLog /var/log/docker-index/apache24.log
     CustomLog /var/log/docker-index/apache-custom.log common
     LogLevel debug
-    <Directory /usr/lib64/python2.6/site-packages/docker_index>
+    <Directory /usr/lib/python2.7/site-packages/docker_index>
         Order allow,deny
         Allow from all
+        Require all granted
     </Directory>
     LimitRequestLine 80000
     LimitRequestFieldSize 80000
     WSGIPassAuthorization On
     WSGIChunkedRequest On
     SSLEngine on
-    SSLCertificateFile /home/registry-cert/service-index.crt
-    SSLCertificateKeyFile /home/registry-cert/service-index.key
+    SSLCertificateFile /etc/server-index.crt
+    SSLCertificateKeyFile /etc/server-index.key
 
 </VirtualHost>
 Listen 443
 ```
+
 ####使apache httpd服务加载wsgi_module扩展。
 将下载的mod_wsgi.so置于apache serverr安装目录的modules文件下，在httpd.conf文件中添加如下一行： 
 ```sh
@@ -110,24 +112,25 @@ Redirecting to /bin/systemctl restart  httpd.service
 ```sh
 [registry]# /etc/httpd/conf.d
 [registry]# vi wsgi-docker-registry.conf
-<VirtulHost *:443>
+<VirtualHost *:443>
     ServerName registry.abc.com
-    DocumentRoot /usr/lib64/python2.6/site-packages/docker_registry
-    WSGIScriptAlias /  /usr/lib64/python2.6/site-packages/docker_registry/wsgi.py
+    DocumentRoot /usr/lib/python2.7/site-packages/docker_registry
+    WSGIScriptAlias /  /usr/lib/python2.7/site-packages/docker_registry/wsgi.py
     ErrorLog /var/log/docker-registry/apache24.log
     CustomLog /var/log/docker-registry/apache-custom.log common
     LogLevel debug
-    <Directory /usr/lib64/python2.6/site-packages/docker_registry>
+    <Directory /usr/lib/python2.7/site-packages/docker_registry>
         Order allow,deny
         Allow from all
+        Require all granted
     </Directory>
     LimitRequestLine 80000
     LimitRequestFieldSize 80000
     WSGIPassAuthorization On
     WSGIChunkedRequest On
     SSLEngine on
-    SSLCertificateFile /home/registry-cert/service-registry.crt
-    SSLCertificateKeyFile /home/registry-cert/service-registry.key
+    SSLCertificateFile /etc/service-registry.crt
+    SSLCertificateKeyFile /etc/service-registry.key
 
 </VirtualHost>
 Listen 443
