@@ -3,7 +3,6 @@ Docker Registry虚拟机配置
 
 ##任务：服务配置    
 * apache安装
-* Docker-index服务配置 （/etc/docker-index.conf)
 * Index Vhost配置
 * Registry Vhost配置      
 
@@ -43,7 +42,7 @@ Redirecting to /bin/systemctl start  httpd.service
 * 默认的主配置文件是/etc/httpd/conf/httpd.conf
 * 配置存储在的/etc/httpd/conf.d/目录
 
-###Registry Vhost配置
+###index Vhost配置
 ####在安装好httpd（apache）之后，还需要下载mod_wsgi。       
 
 >mod_wsgi：A WSGI interface for Python web applications in Apache.               
@@ -69,8 +68,8 @@ Redirecting to /bin/systemctl start  httpd.service
     WSGIPassAuthorization On
     WSGIChunkedRequest On
     SSLEngine on
-    SSLCertificateFile /home/index-cert/service-index.crt
-    SSLCertificateKeyFile /home/index-cert/service-index.key
+    SSLCertificateFile /home/registry-cert/service-index.crt
+    SSLCertificateKeyFile /home/registry-cert/service-index.key
 
 </VirtualHost>
 Listen 443
@@ -106,6 +105,38 @@ lrwxrwxrwx. 1 root root   29 Mar 17 22:37 modules -> ../../usr/lib64/httpd/modul
 [registry]# service httpd restart
 Redirecting to /bin/systemctl restart  httpd.service
 ```
-####
+###Registry Vhost配置
+跟index Vhost配置一样，添加配置文件：/etc/httpd/conf.d/wsgi-docker-registry.conf，内容如下：
+```sh
+[registry]# /etc/httpd/conf.d
+[registry]# vi wsgi-docker-registry.conf
+<VirtulHost *:443>
+    ServerName registry.abc.com
+    DocumentRoot /usr/lib64/python2.6/site-packages/docker_registry
+    WSGIScriptAlias /  /usr/lib64/python2.6/site-packages/docker_registry/wsgi.py
+    ErrorLog /var/log/docker-registry/apache24.log
+    CustomLog /var/log/docker-registry/apache-custom.log common
+    LogLevel debug
+    <Directory /usr/lib64/python2.6/site-packages/docker_registry>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    LimitRequestLine 80000
+    LimitRequestFieldSize 80000
+    WSGIPassAuthorization On
+    WSGIChunkedRequest On
+    SSLEngine on
+    SSLCertificateFile /home/registry-cert/service-registry.crt
+    SSLCertificateKeyFile /home/registry-cert/service-registry.key
+
+</VirtualHost>
+Listen 443
+```     
+**重启服务**
+```sh
+[registry]# service httpd restart
+Redirecting to /bin/systemctl restart  httpd.service
+```
+
 
 
