@@ -2,8 +2,8 @@ Docker Registry虚拟机配置
 --------
 
 ##任务：测试registry    
-* Docker-inex服务配置 （/etc/docker-index.conf)
 * docker（xxx.xxx.40.213）机器配置
+* Docker-inex服务配置 （/etc/docker-index.conf)
 * OpenStack相关配置    
 
 
@@ -34,3 +34,5 @@ server-index.crt
 [docker]#vi /etc/hosts
 xxx.xxx.40.212 www.abc.com registry.abc.com
 ```
+###Docker-inex服务配置  
+配置文件：/etc/docker-index.conf       
