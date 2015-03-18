@@ -13,13 +13,18 @@
 更多精彩内容，请访问我们的[博客主页](http://openstack.wiaapp.cn)       
 
 ###团队成员
-Fangfenghua ([@方锋华](http://weibo.com/u/5539881396)）     
-Luo Hao ([@hluo_华为云计算](http://weibo.com/u/2121903003))      
-ricky.bo ([@寻觅神迹](http://weibo.com/u/2230330930))      
-leiqzhang ([@leivli](http://www.weibo.com/leivli))         
+* Luo Hao ([@hluo_华为云计算](http://weibo.com/u/2121903003))      
+* ricky.bo ([@寻觅神迹](http://weibo.com/u/2230330930))      
+* leiqzhang ([@leivli](http://www.weibo.com/leivli))         
+* Fangfenghua ([@方锋华](http://weibo.com/u/5539881396)）     
 
 ###联系我们   
 微博：**hluo_华为云计算**            
 QQ群：**140364735**     
 
-![hluo_华为云计算](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png)![QQ群](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_qq_group.png)
+![hluo_华为云计算](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png)
+![QQ群](http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_qq_group.png)
+
+     
+[hluo_华为云计算]: http://openstack.wiaapp.cn/wp-content/uploads/2014/05/our_weibo.png
+
