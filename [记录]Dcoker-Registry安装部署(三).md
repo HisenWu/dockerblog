@@ -175,7 +175,8 @@ Getting Private key
 * 去除key文件口令的命令        
 `openssl rsa -in registry.key -out service-registry.key`
 * 自签名      
-`openssl x509 -req -days 365 -in server.csr -signkey service-registry.key -out service-registry.crt`
+`openssl x509 -req -days 365 -in server.csr -signkey service-registry.key -out service-registry.crt`        
+
 ###查看最终生成的文件
 ```sh
 [registry registry-cert]# ls
