@@ -167,9 +167,13 @@ Getting Private key
 
 ###总结生成自签名的过程：
 * 生成一个没有加密的ca私钥       
-`openssl genrsa -out server.key 1024`
+`openssl genrsa -out registry.key 1024`
 * 生成ca对应的csr文件          
-`openssl req -new -key server.key.pem -out server.csr`
-* 自签名         
-`openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt`
-
+`openssl req -new -key registry.key.pem -out registry.csr`
+* 自签名    
+```sh
+[registry certify]# openssl x509 -req -days 365 -in registry.csr -signkey registry.key -out registry-index.crt
+Signature ok
+subject=/C=cn/ST=ss/L=xx/O=ss/OU=uu/CN=registry.abc.com
+Getting Private key
+```
