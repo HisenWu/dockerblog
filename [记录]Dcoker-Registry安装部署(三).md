@@ -172,9 +172,9 @@ Getting Private key
 `openssl genrsa -des3 -out registry.key 1024`
 * 生成ca对应的csr文件          
 `openssl req -new -key registry.key -out registry.csr`
-* 去除key文件口令的命令
+* 去除key文件口令的命令        
 `openssl rsa -in registry.key -out service-registry.key`
-* 自签名    
+* 自签名      
 `openssl x509 -req -days 365 -in server.csr -signkey service-registry.key -out service-registry.crt`
 ###查看最终生成的文件
 ```sh
