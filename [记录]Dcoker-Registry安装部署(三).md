@@ -70,7 +70,9 @@ swift: &swift
 
 ####生成自签名证书
 Index和registry都需要证书，这里采用自签名的证书，对应的域名分别是www.abc.com和registry.abc.com，生成过程如下：         
-参见具体的过程，[详细命令解释](http://rhythm-zju.blog.163.com/blog/static/310042008015115718637/)       
+参见具体的过程，[详细命令解释](http://rhythm-zju.blog.163.com/blog/static/310042008015115718637/)          
+
+下面生成的证书在`/home/registry-cert/`下。     
 
 #####1.  首先要生成服务器端的私钥(key文件),先来生成Index的证书：        
 
@@ -166,19 +168,16 @@ Getting Private key
 ###registry证书生成过程一样（Common Name需输入registry.abc.com）
 
 ###总结生成自签名的过程：
-* 生成一个没有加密的ca私钥       
-`openssl genrsa -out registry.key 1024`
+* 生成一个加密的ca私钥       
+`openssl genrsa -des3 -out registry.key 1024`
 * 生成ca对应的csr文件          
-`openssl req -new -key registry.key.pem -out registry.csr`
+`openssl req -new -key registry.key -out registry.csr`
+* 去除key文件口令的命令
+`openssl rsa -in registry.key -out service-registry.key`
 * 自签名    
-```sh
-[registry certify]# openssl x509 -req -days 365 -in registry.csr -signkey registry.key -out registry-index.crt
-Signature ok
-subject=/C=cn/ST=ss/L=xx/O=ss/OU=uu/CN=registry.abc.com
-Getting Private key
-```
+`openssl x509 -req -days 365 -in server.csr -signkey service-registry.key -out service-registry.crt`
 ###查看最终生成的文件
 ```sh
-[registry certify]# ls
-registry.csr  registry-index.crt  registry.key  server.csr  server.key  service-index.crt  service-index.key
+[registry registry-cert]# ls
+registry.csr  registry.key  server.csr  server.key  service-index.crt  service-index.key  service-registry.key  service-registry.crt
 ```
