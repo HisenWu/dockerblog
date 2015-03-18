@@ -63,11 +63,14 @@ swift: &swift
 
 ####生成自签名证书
 Index和registry都需要证书，这里采用自签名的证书，对应的域名分别是www.abc.com和registry.abc.com，生成过程如下：         
-参见具体的过程，[详细命令解释](http://rhythm-zju.blog.163.com/blog/static/310042008015115718637/)
-1. 首先要生成服务器端的私钥(key文件):        
-先来生成Index的证书：       
+参见具体的过程，[详细命令解释](http://rhythm-zju.blog.163.com/blog/static/310042008015115718637/)       
 
-**openssl genrsa -des3 -out server.key 1024**
+#####1.  首先要生成服务器端的私钥(key文件),先来生成Index的证书：        
+
+命令：     
+**openssl genrsa -des3 -out server.key 1024**     
+
+参数：    
 
 * genrsa        
 用于生成 RSA 密钥对的 OpenSSL 命令。
@@ -92,9 +95,13 @@ Verifying - Enter pass phrase for server.key:
 server.key
 ```
 
-2. 生成CA证书请求     
-为了获取一个CA根证书，我们需要先制作一份证书请求。先前生成的 CA 密钥对被用于对证书请求签名。     
+#####2.  生成ca对应的csr文件，即生成CA证书请求           
+命令：     
+
 **openssl req -new -key server.key -out server.csr  （Common Name需输入www.abc.com）**     
+
+参数：    
+
 * req      
 用于生成证书请求的 OpenSSL 命令。
 * -new       
@@ -124,17 +131,20 @@ A challenge password []:
 An optional company name []:
 ```
 
-3. 去除key文件口令的命令
+#####3. 去除key文件口令的命令
 以后每当需读取此文件(通过openssl提供的命令或API)都需输入口令。        
-如果觉得不方便,也可以去除这个口令,但一定要采取其他的保护措施!          
-**openssl rsa -in server.key.org -out service-index.key**
+如果觉得不方便,也可以去除这个口令,但一定要采取其他的保护措施!     
 ```sh
 [registry]# openssl rsa -in server.key -out service-index.key
 Enter pass phrase for server.key:
 writing RSA key
 ```
-####生成自签名
-**openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt**
+#####4. 生成自签名    
+命令：    
+**openssl x509 -req -days 365 -in server.csr -signkey service-index.key -out service-index.crt**      
+
+参数：    
+
 * -x509      
 生成一份 X.509 证书          
 * -days 365            
