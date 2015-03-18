@@ -180,5 +180,5 @@ Getting Private key
 ###查看最终生成的文件
 ```sh
 [registry registry-cert]# ls
-registry.csr  registry.key  server.csr  server.key  service-index.crt  service-index.key  service-registry.key  service-registry.crt
+index.csr  index.key  registry.csr  registry.key  service-index.crt  service-index.key  service-registry.crt  service-registry.key
 ```
