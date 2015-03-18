@@ -1,3 +1,10 @@
+Docker Registry虚拟机配置
+--------
+
+##任务：服务配置
+* 代码部署
+* Docker-registry服务配置 （/etc/docker-registry.yml)
+* Apache配置 --- 证书生成
 
 ###安装git，clone服务器代码
 在/home下创建git_registry仓库，并下载本地服务器代码
