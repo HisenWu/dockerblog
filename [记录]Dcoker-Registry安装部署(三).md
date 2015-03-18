@@ -167,7 +167,7 @@ Getting Private key
 ```
 ###registry证书生成过程一样（Common Name需输入registry.abc.com）
 
-###总结生成自签名的过程：
+###总结registry生成自签名的过程：
 * 生成一个加密的ca私钥       
 `openssl genrsa -des3 -out registry.key 1024`
 * 生成ca对应的csr文件          
@@ -175,7 +175,7 @@ Getting Private key
 * 去除key文件口令的命令        
 `openssl rsa -in registry.key -out service-registry.key`
 * 自签名      
-`openssl x509 -req -days 365 -in server.csr -signkey service-registry.key -out service-registry.crt`        
+`openssl x509 -req -days 365 -in registry.csr -signkey service-registry.key -out service-registry.crt`        
 
 ###查看最终生成的文件
 ```sh
