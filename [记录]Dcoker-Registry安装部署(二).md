@@ -23,6 +23,6 @@
 2. 一台装`docker`，作为客户端。（xx.xx.40.213）        
       
 ###三台机子的作用
-* keystone（xx.xx.40.211）作用：权限验证。   
-* registry的作用：存储镜像。
-* docker的作用是：docker pull命令测试，通过keystone的权限去registry上下载镜像。  
+* `keystone`（xx.xx.40.211）作用：权限验证。   
+* `registry`的作用：存储镜像。
+* `docker` 的作用：docker pull命令测试，通过keystone的权限去registry上下载镜像。  
