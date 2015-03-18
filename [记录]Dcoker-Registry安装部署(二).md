@@ -20,5 +20,9 @@
 都进行网络、yum源配置（base和epel）
 
 1. 一台安装`registry`，通过index与keystone连接验证。（xx.xx.40.212）
-2. 一台装`docker`，作为客户端。（xx.xx.40.213）
-3. 在docker作为host，再运行一个容器（bridge方式），但是问题来了？网如何配通？
+2. 一台装`docker`，作为客户端。（xx.xx.40.213）        
+      
+###三台机子的作用
+* keystone（xx.xx.40.211）作用：权限验证。   
+* registry的作用：存储镜像。
+* docker的作用是：docker pull命令测试，通过keystone的权限去registry上下载镜像。  
