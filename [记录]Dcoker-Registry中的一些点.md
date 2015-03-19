@@ -6,6 +6,10 @@
 * Index VHost  --  配置文件wsgi-docker-index.conf
 * Registry VHost    --    配置文件wsgi-docker-registry.conf
 
+####https的SSL证书不能用IP地址      
+
+/etc/hosts下进行ip地址和域名进行对应      
+
 ####配置决定是否进行鉴权
 * 不鉴权    
 
