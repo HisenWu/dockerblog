@@ -10,6 +10,11 @@
 
 /etc/hosts下进行ip地址和域名进行对应      
 
+####curl --insecure https：//www.abc.com
+--insecure 允许不使用证书到SSL站点
+HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议要比http协议安全         
+http和https使用的端口不一样,前者是80,后者是443
+
 ####配置决定是否进行鉴权
 * 不鉴权    
 
