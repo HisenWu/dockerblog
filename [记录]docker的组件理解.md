@@ -28,7 +28,8 @@ Registry中镜像是通过Repository来组织的，而每个Repository又包含�
 ###Docker后台进程是一个常驻后台的系统进程。     
 值得注意的是：Docker使用同一个文件来支持客户端和后台进程，其中角色切换通过-d来实现。
 
-###libcontainer
+###libcontainer       
+
 Docker从一开始就是围绕LXC开发的，但在版本稳定后，使用Go重写了一套`类LXC接口`实现。也就是 libcontainer 项目。 它的代码管理方式与上面的Docker源代码管理方式一样，开发者可以很容易的导入到子项目libcontainer的开发。         一致的管理方法可以提高流程的复用，这种管理方式希望能得到大家的借鉴参考。     
 ------
 ###实战
