@@ -32,5 +32,5 @@ Token auth is enabled (if NOT standalone)
     disable_token_auth: _env:DISABLE_TOKEN_AUTH:false   
 ```
 ####错误定位
-* 如果是apache的错误，那么需要查看/var/log/http下的日志信息
-* 如果是Internal Server Error，则需要查看/var/log/dokcer-xxx下的日志信息
+* 如果是apache的错误，即`400 bad server`那么需要查看/var/log/http下的日志信息
+* 如果是Internal Server Error，即`500 internal server error`则需要查看/var/log/dokcer-xxx下的日志信息
