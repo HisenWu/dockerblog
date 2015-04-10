@@ -95,9 +95,9 @@ linux系统中有ulimit 指令，对资源限制和系统性能优化提供了�
 ```
 查看[ulimit.go源码](https://github.com/docker/docker/blob/master/pkg/ulimit/ulimit.go)，找到ulimit可设置的所有参数命令。
 ```sh
-"core":       RLIMIT_CORE,
-"cpu":        RLIMIT_CPU,
-"data":       RLIMIT_DATA,
+"core":       RLIMIT_CORE,                                            
+"cpu":        RLIMIT_CPU,                       
+"data":       RLIMIT_DATA,                      
 "fsize":      RLIMIT_FSIZE,
 "locks":      RLIMIT_LOCKS,
 "memlock":    RLIMIT_MEMLOCK,
@@ -110,4 +110,57 @@ linux系统中有ulimit 指令，对资源限制和系统性能优化提供了�
 "rttime":     RLIMIT_RTTIME,
 "sigpending": RLIMIT_SIGPENDING,
 "stack":      RLIMIT_STACK,
+```
+对应Linux下的ulimit -a显示的信息。
+```shell
+core file size          (blocks, -c) unlimited
+data seg size           (kbytes, -d) 1000
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 14981
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) 1000
+open files                      (-n) 1048576
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 1048576
+virtual memory          (kbytes, -v) 1000
+file locks                      (-x) unlimited
+```
+------
+测试每一个命令，自己制作的他们的对应关系，如有不对请指出！      
+
+**测试目的：**
+* 对应ulimit指令在docker和Linux下作对应
+* 测试后发现，docker ulimit设置关于存储的值，在Linux下查看需要除以1024（单位不一样）
+```sh
+# docker run --privileged -it --rm --ulimit xxx=5000 centos /bin/bash
+```
+```sh
+[host]#docker --ulimit xxx =         number        [container]#ulimit xx            值
+
+            "core":                  5000                   -c,                     4                    
+            "cpu":                   5000                   -t,                     5000 
+            "data":                  5000                   -d,                     4
+            "fsize":                 5000                   -f,                     4
+            "locks":                 5000                   -x,                     5000
+            "memlock":               5000                   -l,                     4
+            "msgqueue":              5000                   -q,                     5000
+            "nice":                  5000                   -e,                     5000
+            "nofile":                5000                   -n,                     5000
+            "nproc":                 5000                   -u,                     5000
+            "rss":                   5000                   -m,                     4
+            "rtprio":                5000                   -r,                     5000
+            "rttime":                RLIMIT_RTTIME,(没找到对应的)
+            "sigpending":            5000                   -i,                     5000
+            "stack":                 -s(执行了，但没有进入到容器)
+```
+上面表格的理解：
+```[host]# docker --ulimit  core=5000 ...```
+```
+[container]# ulimit -c
+4
 ```
