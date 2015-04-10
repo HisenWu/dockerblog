@@ -131,14 +131,17 @@ virtual memory          (kbytes, -v) 1000
 file locks                      (-x) unlimited
 ```
 ------
-测试每一个命令，自己制作的他们的对应关系，如有不对请指出！      
+####测试每一个命令，自己制作的他们的对应关系，如有不对请指出！      
 
-**测试目的：**
+#####**测试目的：**
 * 对应ulimit指令在docker和Linux下作对应
 * 测试后发现，docker ulimit设置关于存储的值，在Linux下查看需要除以1024（单位不一样）
+
+#####测试命令
 ```sh
 # docker run --privileged -it --rm --ulimit xxx=5000 centos /bin/bash
 ```
+#####测试结果
 ```sh
 [host]#docker --ulimit xxx =         number        [container]#ulimit xx            值
 
@@ -158,7 +161,7 @@ file locks                      (-x) unlimited
             "sigpending":            5000                   -i,                     5000
             "stack":                 -s(执行了，但没有进入到容器)
 ```
-上面表格的理解：
+#####理解上面表格
 ```[host]# docker --ulimit  core=5000 ...```
 ```
 [container]# ulimit -c
