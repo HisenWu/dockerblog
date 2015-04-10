@@ -87,5 +87,27 @@ FATA[0000] "logs" command is supported only for "json-file" logging driver
 **ulimit的作用：设置启动容器所占有的资源，实现系统资源的合理限制和分配。**
 linux系统中有ulimit 指令，对资源限制和系统性能优化提供了一条便捷的途径。从用户的 shell启动脚本，应用程序启动脚本，以及直接在控制台，都可以通过该指令限制系统资源的使用，包括所创建的内核文件的大小、进程数据块的大小、Shell进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU时间、单个用户的最大线程数、Shell进程所能使用的最大虚拟内存，等等方面。[更多介绍](https://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/)                      
 ```sh
-# docker run -itd --ulimit data=8192 centos
+[host]# docker run --privileged -it --ulimit data=8192 centos /bin/bash
+```
+在容器中查看设置的值是否生效。
+```sh
+[container]# ulimit -a
+```
+查看[ulimit.go源码](https://github.com/docker/docker/blob/master/pkg/ulimit/ulimit.go)，找到ulimit可设置的所有参数命令。
+```sh
+"core":       RLIMIT_CORE,
+"cpu":        RLIMIT_CPU,
+"data":       RLIMIT_DATA,
+"fsize":      RLIMIT_FSIZE,
+"locks":      RLIMIT_LOCKS,
+"memlock":    RLIMIT_MEMLOCK,
+"msgqueue":   RLIMIT_MSGQUEUE,
+"nice":       RLIMIT_NICE,
+"nofile":     RLIMIT_NOFILE,
+"nproc":      RLIMIT_NPROC,
+"rss":        RLIMIT_RSS,
+"rtprio":     RLIMIT_RTPRIO,
+"rttime":     RLIMIT_RTTIME,
+"sigpending": RLIMIT_SIGPENDING,
+"stack":      RLIMIT_STACK,
 ```
