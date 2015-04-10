@@ -134,7 +134,7 @@ file locks                      (-x) unlimited
 ####测试每一个命令，自己制作的他们的对应关系，如有不对请指出！      
 
 #####**测试目的：**
-* 对应ulimit指令在docker和Linux下作对应
+* ulimit指令在docker和Linux下作对应
 * 测试后发现，docker ulimit设置关于存储的值，在Linux下查看需要除以1024（单位不一样）
 
 #####测试命令
