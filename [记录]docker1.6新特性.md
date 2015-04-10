@@ -162,6 +162,7 @@ file locks                      (-x) unlimited
             "stack":                 -s(执行了，但没有进入到容器)
 ```
 #####理解上面表格
+以core为例说明：
 ```[host]# docker --ulimit  core=5000 ...```
 ```
 [container]# ulimit -c
