@@ -41,7 +41,7 @@ Server version: 1.6.0-rc5
 * `--default-ulimit` option on the daemon which applies to all created containers (and overwritten by `--ulimit` on run)
 
 ###新特性体验
-####Docker run新特性
+####本文主要体验runtime的新特性
 ####LABEL可以支持：     
 
 * Dockerfile，label image
