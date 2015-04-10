@@ -131,7 +131,7 @@ virtual memory          (kbytes, -v) 1000
 file locks                      (-x) unlimited
 ```
 ------
-####测试每一个命令，自己制作的他们的对应关系，如有不对请指出！      
+####测试每一个命令，确定对应关系，如有不对请指出！      
 
 #####**测试目的：**
 * ulimit指令在docker和Linux下作对应
@@ -157,9 +157,9 @@ file locks                      (-x) unlimited
             "nproc":                 5000                   -u,                     5000
             "rss":                   5000                   -m,                     4
             "rtprio":                5000                   -r,                     5000
-            "rttime":                RLIMIT_RTTIME,(没找到对应的)
+            "rttime":                RLIMIT_RTTIME, (没找到对应的)
             "sigpending":            5000                   -i,                     5000
-            "stack":                 -s(执行了，但没有进入到容器)
+            "stack":                 -s (执行了，但没有进入到容器)
 ```
 #####理解上面表格
 以core为例说明：      
@@ -169,3 +169,4 @@ file locks                      (-x) unlimited
 [container]# ulimit -c
 4
 ```
+`rttime`没有找到Linux下对应的指令~
