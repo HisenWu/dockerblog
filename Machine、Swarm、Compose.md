@@ -14,7 +14,7 @@
 ###Compose：
 有了环境，我们下一步要做什么？部署应用啊。                     
 然后我们需要docker run image1、docker run image2...一次一次不厌其烦的重复这些操作，每次都写大量的命令参数。                       
-**Compose简化部署应用流程，只需要把命令参数固话到docker-compose.yml中。**
+**Compose简化部署应用流程，只需要把命令参数固化到docker-compose.yml中。**
 
 目前Machine、Swarm、Compose已经可以结合使用，创建集群环境，简单的在上面部署应用。              
 但是还不完善，比如对于有link的应用，它们只能跑在Swarm集群的一个机器上，即使你的集群有很多机器。            
