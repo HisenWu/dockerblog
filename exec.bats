@@ -14,8 +14,10 @@ function teardown(){
         [ "$status" -eq 0 ]
         #make sure container is up
         run docker_swarm ps -l
+        [ "$status" -eq 0 ]
         [[ "${#lines[@]}" -eq 2 ]]
         [[ "${#lines[1]}" ==  *"Up"* ]]
+        
         run docker_swarm exec exec_container ls
         [ "$status" -eq 0 ]
 }
