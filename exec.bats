@@ -10,8 +10,10 @@ function teardown(){
 @test " docker exec which runs command inside the running container should return success" {
         start_docker 1
         swarm_manage
+        
         run docker_swarm run -d --name exec_container ubuntu:latest sleep 100
         [ "$status" -eq 0 ]
+        
         #make sure container is up
         run docker_swarm ps -l
         [ "$status" -eq 0 ]
