@@ -8,13 +8,16 @@ function teardown(){
 }
 
 @test "swarm create/start/stop container should return success" {
-        #create
+        
         start_docker 1
         swarm_manage
+        
+        #create
         ##need option -i -t
         run docker_swarm create -i -t --name create_container ubuntu:latest sleep 60
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
+        [ "$status" -eq 0 ]
         [[ "${#lines[@]}" -eq 2 ]]
         [[ "${#lines[1]}" ==  *"create_container"* ]]
 
@@ -22,6 +25,7 @@ function teardown(){
         run docker_swarm start create_container sleep 10
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
+        [ "$status" -eq 0 ]
         [[ "${#lines[@]}" -eq 2 ]]
         [[ "${#lines[1]}" ==  *"Up"* ]]
 
@@ -36,6 +40,7 @@ function teardown(){
         run docker_swarm restart create_container sleep 40
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
+        [ "$status" -eq 0 ]
         [[ "${#lines[@]}" -eq 2 ]]
         [[ "${#lines[1]}" ==  *"Up"* ]]
 
@@ -43,4 +48,7 @@ function teardown(){
         run docker_swarm kill create_container sleep 10
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
+        [ "$status" -eq 0 ]
+        [[ "${#lines[@]}" -eq 2 ]]
+        [[ "${#lines[1]}" ==  *"Exited (137)"* ]]
   }
