@@ -12,20 +12,15 @@ function teardown(){
         start_docker 1
         swarm_manage
         
-        run docker_swarm pull busybox:latest sleep 60
+        run docker_swarm pull busybox
         [ "$status" -eq 0 ]
 
         #tag image
         run docker_swarm tag busybox tag_busybox:test
         [ "$status" -eq 0 ]
         
-        #docker_swarm verify
+        #verify
         run docker_swarm images
-        [ "$status" -eq 0 ]
-        [[ "${lines[*]}" == *"tag_busybox"* ]]
-
-        #docker node verify, if more than 1 enginer, where?
-        run docker -H ${HOST[0]} images
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"tag_busybox"* ]]
 }
