@@ -11,7 +11,7 @@ function teardown(){
         start_docker 2
         swarm_manage
         #run 
-        run docker_swarm run --name test_container busybox sleep 1000
+        run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         #stop
         run docker_swarm stop test_container
