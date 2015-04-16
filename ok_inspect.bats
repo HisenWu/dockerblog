@@ -7,10 +7,10 @@ function teardown(){
         stop_docker
 }
 
-@test "docker inspect the running container" {
+@test "docker inspect container" {
         start_docker 1
         swarm_manage
-        #running container
+        #run container
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         
@@ -18,8 +18,4 @@ function teardown(){
         run docker_swarm inspect test_container
         [ "$status" -eq 0 ]
         [[ "${lines[1]}" == *"AppArmorProfile"* ]]
-        #--format
-        run docker_swarm inspect --format='{{.Config.Image}}' test_container
-        [ "$status" -eq 0 ]
-        [[ "${lines[0]}" == "busybox" ]]
 }
