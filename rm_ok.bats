@@ -10,14 +10,14 @@ function teardown(){
 @test "swarm delete container should return success" {
         start_docker 1
         swarm_manage
-        run docker_swarm run -d --name delete_container busybox sleep 60
+        run docker_swarm run -d --name test_container busybox
         [ "$status" -eq 0 ]
         
         #make sure the delete container is exsist
         run docker_swarm ps -l
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"delete_container"* ]]
+        [ "${lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"test_container"* ]]
         
-        run docker_swarm rm delete_container
+        run docker_swarm rm test_container
         [ "$status" -eq 0 ]
 }
