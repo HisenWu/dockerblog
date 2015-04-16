@@ -21,7 +21,6 @@ function teardown(){
 
         ##vertify after rename 
         run docker_swarm ps -l
-        [ "$status" -eq 0 ]
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"rename_container"* ]]
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"rename_container"* ]]
 }
