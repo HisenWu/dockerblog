@@ -15,7 +15,7 @@ function teardown(){
         ##make sure container is up
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" ==  *"Up"* ]]
         
         run docker_swarm attach test_container
         [ "$status" -eq 0 ]
