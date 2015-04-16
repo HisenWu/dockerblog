@@ -12,14 +12,9 @@ function teardown(){
         swarm_manage
         
         #run a container
-        run docker_swarm run -d --name logs_container ubuntu:latest sleep 100
+        run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         
-        #make sure container is up
-        run docker_swarm ps -l
-        [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" ==  *"Up"* ]]
-
-        run docker_swarm logs logs_container
+        run docker_swarm logs test_container
         [ "$status" -eq 0 ]
 }
