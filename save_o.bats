@@ -25,4 +25,7 @@ function teardown(){
     
     #saved image file exists
     [ -f save_busybox_image_oupt.tar ]
+    
+    #ater ok, delete tar file
+    rm -f save_busybox_image_oupt.tar
 }
