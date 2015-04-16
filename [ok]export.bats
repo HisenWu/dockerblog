@@ -17,4 +17,7 @@ function teardown(){
         [ "$status" -eq 0 ]
         #exported file exists
         [ -f container_busybox.tar ]
+        
+        #ater ok, delete tar file
+        rm -f container_busybox.tar
 }
