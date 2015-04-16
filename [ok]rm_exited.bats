@@ -15,7 +15,7 @@ function teardown(){
         
         #make sure the delete container is exsist
         run docker_swarm ps -l
-        [ "${lines[@]}" -eq 2 ]
+        [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" == *"Exited"* ]]
         
         run docker_swarm rm test_container
@@ -23,5 +23,5 @@ function teardown(){
         
         #verify
         run docker_swarm ps -l
-        [ "${lines[@]}" -eq 1 ]
+        [ "${#lines[@]}" -eq 1 ]
 }
