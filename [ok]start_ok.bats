@@ -8,7 +8,7 @@ function teardown(){
 }
 
 @test "docker start container" {
-        start_docker 2
+        start_docker 1
         swarm_manage
         #create
         run docker_swarm create --name test_container busybox sleep 1000
