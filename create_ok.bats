@@ -18,7 +18,7 @@ function teardown(){
         run docker_swarm ps -l
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"test_container"* ]]
+        [[ "${lines[1]}" ==  *"test_container"* ]]
 
         #start
         run docker_swarm start test_container
@@ -26,14 +26,14 @@ function teardown(){
         run docker_swarm ps -l
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" ==  *"Up"* ]]
 
         #stop
         run docker_swarm stop test_container
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"Exited"* ]]
+        [[ "${lines[1]}" ==  *"Exited"* ]]
 
         #restart
         run docker_swarm restart test_container
@@ -41,7 +41,7 @@ function teardown(){
         run docker_swarm ps -l
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" ==  *"Up"* ]]
 
         #kill
         run docker_swarm kill test_container
@@ -49,5 +49,5 @@ function teardown(){
         run docker_swarm ps -l
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${#lines[1]}" ==  *"Exited"* ]]
+        [[ "${lines[1]}" ==  *"Exited"* ]]
   }
