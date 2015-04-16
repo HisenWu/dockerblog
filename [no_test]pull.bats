@@ -16,8 +16,10 @@ function teardown(){
         #docker_swarm verify
         run docker_swarm images
         [ "$status" -eq 0 ]
-        [[ "${lines[*]}" == *"tag_busybox"* ]]
+        [[ "${lines[*]}" == *"busybox"* ]]
         
+        #node verify
         run docker -H  ${HOSTS[0]} images
+        [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq  2 ]
 }
