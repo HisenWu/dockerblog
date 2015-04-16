@@ -17,9 +17,9 @@ function teardown(){
         #make sure container is running
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" == *"Up"* ]]
         
         run docker_swarm top test_container
         [ "$status" -eq 0 ]
-        [[ "${lines[0]}" ==  *"UID"* ]]
+        [[ "${lines[0]}" == *"UID"* ]]
 }
