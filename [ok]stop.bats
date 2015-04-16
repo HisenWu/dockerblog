@@ -18,7 +18,7 @@ function teardown(){
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" ==  *"Exited"* ]]
+        [[ "${lines[1]}" == *"Exited"* ]]
 }
 
 
