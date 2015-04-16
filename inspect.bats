@@ -11,14 +11,14 @@ function teardown(){
         start_docker 1
         swarm_manage
         #run container
-        run docker_swarm run -d --name exec_container ubuntu:latest sleep 100
+        run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         #make sure container is up
         run docker_swarm ps -l
         [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" ==  *"Up"* ]]
         #inspect
-        run docker_swarm inspect exec_container
+        run docker_swarm inspect test_container
         [ "$status" -eq 0 ]
-        [[ "${#lines[1]}" ==  *"AppArmorProfile"* ]]
+        [[ "${lines[1]}" ==  *"AppArmorProfile"* ]]
 }
