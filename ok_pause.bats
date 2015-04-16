@@ -17,12 +17,12 @@ function teardown(){
         #make sure container is up
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" ==  *"Up"* ]]
+        [[ "${lines[1]}" == *"Up"* ]]
         
         #pause
         run docker_swarm pause test_container
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" ==  *"Paused"* ]]
+        [[ "${lines[1]}" == *"Paused"* ]]
 }
