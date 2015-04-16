@@ -7,16 +7,16 @@ function teardown(){
         stop_docker
 }
 
-@test "docker rename: rename a container's name should return success" {
+@test "docker rename" {
         #create
         start_docker 1
         swarm_manage
         
-        run docker_swarm run -d --name running_container ubuntu:latest sleep 100
+        run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
 
         ##rename container
-        run docker_swarm rename running_container rename_container
+        run docker_swarm rename test_container rename_container
         [ "$status" -eq 0 ]
 
         ##vertify after rename 
