@@ -11,28 +11,25 @@ function teardown(){
         start_docker 1
         swarm_manage
         
-        run docker_swarm run -d --name exec_container ubuntu:latest sleep 100
+        run docker_swarm run -d --name test_container busybox sleep 1000
         [ "$status" -eq 0 ]
         
         #make sure container is up
         run docker_swarm ps -l
-        [ "$status" -eq 0 ]
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"Up"* ]]
         
         #pause
-        run docker_swarm pause exec_container
+        run docker_swarm pause test_container
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
-        [ "$status" -eq 0 ]
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"Paused"* ]]
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"Paused"* ]]
         
         #unpause
-        run docker_swarm unpause exec_container
+        run docker_swarm unpause test_container
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
-        [ "$status" -eq 0 ]
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" !=  *"Paused"* ]]
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" !=  *"Paused"* ]]
 }
