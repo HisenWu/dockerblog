@@ -24,7 +24,7 @@ function teardown(){
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"tag_busybox"* ]]
 
-        #docker node verify
+        #docker node verify, if more than 1 enginer, where?
         run docker -H ${HOST[0]} images
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"tag_busybox"* ]]
