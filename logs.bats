@@ -17,8 +17,8 @@ function teardown(){
         
         #make sure container is up
         run docker_swarm ps -l
-        [[ "${#lines[@]}" -eq 2 ]]
-        [[ "${#lines[1]}" ==  *"Up"* ]]
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"Up"* ]]
 
         run docker_swarm logs logs_container
         [ "$status" -eq 0 ]
