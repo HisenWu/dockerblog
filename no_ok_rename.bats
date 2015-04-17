@@ -18,6 +18,9 @@ function teardown(){
         ##rename container
         run docker_swarm rename test_container rename_container
         [ "$status" -eq 0 ]
+        
+        #cluster refresh the state of container need 30 seconds
+        sleep 35
 
         ##verify after rename 
         run docker_swarm ps -l
