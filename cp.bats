@@ -18,7 +18,7 @@ function teardown(){
         [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" ==  *"Up"* ]]
 		
-		    #make diff
+	#touch cp file
         run docker_swarm exec test_container touch /home/cp.txt
         [ "$status" -eq 0 ]
         
