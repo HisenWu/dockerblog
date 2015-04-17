@@ -8,12 +8,12 @@ function teardown(){
 }
 
 @test "docker delete container" {
-        start_docker 1
+        start_docker 3
         swarm_manage
         run docker_swarm run -d --name test_container busybox
         [ "$status" -eq 0 ]
         
-        #make sure the delete container is exsist
+        # make sure the delete container is exsist
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" == *"Exited"* ]]
@@ -21,7 +21,7 @@ function teardown(){
         run docker_swarm rm test_container
         [ "$status" -eq 0 ]
         
-        #verify
+        # verify
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 1 ]
 }
