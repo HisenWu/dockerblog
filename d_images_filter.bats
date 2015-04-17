@@ -21,5 +21,5 @@ function teardown(){
         # images --filter
         run docker_swarm images --filter "dangling=true"
         [ "$status" -eq 0 ]
-        [[ "${lines[*]}" == *"<none>"* ]]
+        [[ "${lines[*]}" == *"none"* ]]
 }
