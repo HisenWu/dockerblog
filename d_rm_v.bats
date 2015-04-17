@@ -13,7 +13,7 @@ function teardown(){
         run docker_swarm run -d --name test_container -v /home:/home busybox
         [ "$status" -eq 0 ]
         
-        # make sure volume
+        # make sure mount a volume
         run docker_swarm inspect --format='{{.Volumes}}' test_container
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"/home:/home"* ]]
