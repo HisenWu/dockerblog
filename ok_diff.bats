@@ -22,7 +22,7 @@ function teardown(){
         run docker_swarm exec test_container touch /home/diff.txt
         [ "$status" -eq 0 ]
         
-        run docker_swarm exec diff test_container
+        run docker_swarm diff test_container
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" ==  *"/home/diff.txt"* ]]
 }
