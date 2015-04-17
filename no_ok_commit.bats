@@ -18,6 +18,9 @@ function teardown(){
         run docker_swarm commit test_container commit_image_busybox
         [ "$status" -eq 0 ]
 
+        #cluster refresh the state of image need 30 seconds
+        sleep 35
+        
         ##verify after commit 
         run docker_swarm images
         [ "$status" -eq 0 ]
