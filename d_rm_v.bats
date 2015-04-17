@@ -7,7 +7,7 @@ function teardown(){
         stop_docker
 }
 
-@test "docker delete container" {
+@test "docker rm -v" {
         start_docker 3
         swarm_manage
         run docker_swarm run -d --name test_container -v /home:/home busybox
