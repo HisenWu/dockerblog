@@ -7,17 +7,17 @@ function teardown(){
         stop_docker
 }
 
-@test "docker delete container" {
-        start_docker 1
+@test "docker rm -f" {
+        start_docker 3
         swarm_manage
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         
-        #rm -f
+        # rm -f, remove a running container
         run docker_swarm rm -f test_container
         [ "$status" -eq 0 ]
         
-        #verify
-        run docker_swarm ps -l
+        # verify
+        run docker_swarm ps -a
         [ "${#lines[@]}" -eq 1 ]
 }
