@@ -19,7 +19,7 @@ function teardown(){
         [ "$status" -eq 0 ]
 
         ##verify after commit 
-        run docker_swarm images | head
-        [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" == *"commit_image_busybox"* ]]
+        run docker_swarm images
+        [ "$status" -eq 0 ]
+        [[ "${lines[*]}" == *"commit_image_busybox"* ]]
 }
