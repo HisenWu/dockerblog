@@ -8,7 +8,7 @@ function teardown(){
 }
 
 @test "docker load should return success, every node should load the image" {
-        start_docker 1
+        start_docker 3
         swarm_manage
         run docker_swarm pull busybox 
         [ "$status" -eq 0 ]
@@ -19,7 +19,9 @@ function teardown(){
         [[ "${lines[*]}" == *"busybox"* ]]
         
         #node verify
-        run docker -H  ${HOSTS[0]} images
-        [ "$status" -eq 0 ]
-        [ "${#lines[@]}" -eq  2 ]
+        for ((i=0; i < ${#HOSTS[@]}; i++)); do
+		run docker -H  ${HOSTS[i]} images
+                [ "$status" -eq 0 ]
+                [ "${#lines[@]}" -eq  2 ]
+	done
 }
