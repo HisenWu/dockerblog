@@ -11,11 +11,12 @@ function teardown(){
         start_docker 3
         swarm_manage
 
-        #search image
+        # search image (not exist)
         run docker_swarm search no_this_image
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"DESCRIPTION"* ]]
         
+        # search busybox
         run docker_swarm search busybox
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"busybox"* ]]
