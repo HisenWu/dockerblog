@@ -16,7 +16,7 @@ function teardown(){
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"busybox"* ]]
         
-        # history image
+        # history
         run docker_swarm history busybox
         [ "$status" -eq 0 ]
         [[ "${lines[0]}" == *"CREATED BY"* ]]
