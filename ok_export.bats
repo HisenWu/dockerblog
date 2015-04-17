@@ -18,6 +18,6 @@ function teardown(){
         #exported file exists
         [ -f container_busybox.tar ]
         
-        #ater ok, delete tar file
+        #after ok, delete tar file
         rm -f container_busybox.tar
 }
