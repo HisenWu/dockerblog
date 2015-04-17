@@ -18,11 +18,11 @@ function teardown(){
         [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" ==  *"Up"* ]]
 		
-		#make diff
+	#make diff
         run docker_swarm exec test_container touch /home/diff.txt
         [ "$status" -eq 0 ]
         
         run docker_swarm diff test_container
         [ "$status" -eq 0 ]
-        [[ "${lines[*]}" ==  *"/home/diff.txt"* ]]
+        [[ "${lines[*]}" ==  *"diff.txt"* ]]
 }
