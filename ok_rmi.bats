@@ -20,7 +20,20 @@ function teardown(){
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 1 ]
         
-        run docker -H ${HOST[0]} images
+        start_docker 3
+        swarm_manage
+        run docker_swarm pull busybox
         [ "$status" -eq 0 ]
-        [ "${#lines[@]}" -eq 1 ]
+
+        # docker_swarm verify
+        run docker_swarm images
+        [ "$status" -eq 0 ]
+        [[ "${lines[*]}" == *"busybox"* ]]
+
+        # node verify
+        for host in ${HOSTS[@]}; do
+                run docker -H $host images
+                [ "$status" -eq 0 ]
+                [ "${#lines[@]}" -eq 1 ]
+        done
 }
