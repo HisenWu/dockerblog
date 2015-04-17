@@ -9,7 +9,7 @@ function teardown(){
 
 @test "docker top: display the running processes of a container" {
         #create
-        start_docker 1
+        start_docker 3
         swarm_manage
         
         run docker_swarm run -d --name test_container busybox sleep 500
