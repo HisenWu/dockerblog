@@ -15,7 +15,7 @@ function teardown(){
         run docker_swarm pull busybox
         [ "$status" -eq 0 ]
 
-        #images
+        # images
         run docker_swarm images
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"busybox"* ]]
