@@ -7,11 +7,11 @@ function teardown(){
         stop_docker
 }
 
-@test " docker logs should prensent at the time of execution" {
+@test "docker logs should prensent at the time of execution" {
         start_docker 1
         swarm_manage
         
-        #run a container
+        # run a container
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         
