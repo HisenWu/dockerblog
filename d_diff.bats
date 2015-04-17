@@ -8,7 +8,7 @@ function teardown(){
 }
 
 @test "docker diff container" {
-        start_docker 1
+        start_docker 3
         swarm_manage
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
