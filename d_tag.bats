@@ -9,7 +9,7 @@ function teardown(){
 }
 
 @test "swarm tag image should return success" {
-        start_docker 1
+        start_docker 3
         swarm_manage
         
         run docker_swarm pull busybox
@@ -19,6 +19,8 @@ function teardown(){
         run docker_swarm tag busybox tag_busybox:test
         [ "$status" -eq 0 ]
         
+        #cluster refresh the state of image need 30 seconds
+        sleep 35
         #verify
         run docker_swarm images
         [ "$status" -eq 0 ]
