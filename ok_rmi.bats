@@ -13,7 +13,7 @@ function teardown(){
         run docker_swarm pull busybox
         [ "$status" -eq 0 ]
         
-        #this test just remove images which not used
+        #this test presupposition: not run image
         run docker_swarm rmi busybox
         [ "$status" -eq 0 ]
         
