@@ -1,3 +1,0 @@
-docker -H 127.0.0.1:6473 search busybox
-FATA[0000] Error response from daemon: No healthy node available in the cluster 
-

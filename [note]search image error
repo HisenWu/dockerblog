@@ -1,0 +1,31 @@
+# docker -H 127.0.0.1:6473 search busybox
+FATA[0000] Error response from daemon: No healthy node available in the cluster 
+
+# docker -H 127.0.0.1:6473 images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+
+# docker -H 127.0.0.1:6473 rmi busybox:latest
+Untagged: busybox:buildroot-2014.02
+Untagged: busybox:latest
+Deleted: 4986bf8c15363d1c5d15512d5266f8777bfba4974ac56e3270e7760f6f0a8125
+Deleted: ea13149945cb6b1e746bf28032f02e9b5a793523481a0a18645fc77ad53c4ea2
+Deleted: df7546f9f060a2268024c8a230d8639878585defcc1bc6f79d2728a13957871b
+Deleted: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158
+Untagged: busybox:buildroot-2014.02
+Untagged: busybox:latest
+Deleted: 4986bf8c15363d1c5d15512d5266f8777bfba4974ac56e3270e7760f6f0a8125
+Deleted: ea13149945cb6b1e746bf28032f02e9b5a793523481a0a18645fc77ad53c4ea2
+Deleted: df7546f9f060a2268024c8a230d8639878585defcc1bc6f79d2728a13957871b
+Deleted: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158
+Untagged: busybox:buildroot-2014.02
+Untagged: busybox:latest
+Deleted: 4986bf8c15363d1c5d15512d5266f8777bfba4974ac56e3270e7760f6f0a8125
+Deleted: ea13149945cb6b1e746bf28032f02e9b5a793523481a0a18645fc77ad53c4ea2
+Deleted: df7546f9f060a2268024c8a230d8639878585defcc1bc6f79d2728a13957871b
+Deleted: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158
