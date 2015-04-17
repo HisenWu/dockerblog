@@ -17,6 +17,7 @@ function teardown(){
         run docker_swarm rmi busybox
         [ "$status" -eq 0 ]
         
+        # swarm verify
         run docker_swarm images
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 1 ]
