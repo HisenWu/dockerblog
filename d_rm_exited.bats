@@ -13,10 +13,10 @@ function teardown(){
         run docker_swarm run -d --name test_container busybox
         [ "$status" -eq 0 ]
         
-        # make sure the delete container is exsist
+        # make sure the delete container is exsist and exited
         run docker_swarm ps -a
         [ "${#lines[@]}" -eq 2 ]
-        [[ "${lines[1]}" == *"Exited"* ]]
+        [[ "${lines[*]}" == *"Exited"* ]]
         
         run docker_swarm rm test_container
         [ "$status" -eq 0 ]
