@@ -7,13 +7,13 @@ function teardown(){
         stop_docker
 }
 
-@test "swarm delete image should return success" {
+@test "docker rmi" {
         start_docker 3
         swarm_manage
         run docker_swarm pull busybox
         [ "$status" -eq 0 ]
         
-        #this test presupposition: not run image
+        # this test presupposition: do not run image
         run docker_swarm rmi busybox
         [ "$status" -eq 0 ]
         
