@@ -22,6 +22,6 @@ function teardown(){
         for ((i=0; i < ${#HOSTS[@]}; i++)); do
 		run docker -H  ${HOSTS[i]} images
                 [ "$status" -eq 0 ]
-                [ "${#lines[@]}" -eq  2 ]
+                [[ "${lines[*]}" == *"busybox"* ]]
 	done
 }
