@@ -14,14 +14,17 @@ function teardown(){
         run docker_swarm create --name test_container busybox sleep 1000
         [ "$status" -eq 0 ]
         
-        # make sure create container exist
-        # new container created has no status
+        # make sure created container exists
+        # new created container has no status
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"test_container"* ]]
         
         # start
         run docker_swarm start test_container
         [ "$status" -eq 0 ]
+        
+        # verify 
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" ==  *"Up"* ]]
