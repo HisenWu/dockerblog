@@ -26,4 +26,6 @@ function teardown(){
 	run docker_swarm cp test_container:/home/cp.txt /tmp/
 	[ "$status" -eq 0 ]
 	[ -f "/tmp/cp.txt" ]
+	# after ok, delete cp file
+	rm -f /tmp/cp.txt
 }
