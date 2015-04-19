@@ -15,12 +15,12 @@ function teardown(){
 	[ "$status" -eq 0 ]
 	
 	# make sure busybox image exists and no comming file in current path
-	run docker_swarm images
+	run docker_swarm images -q
 	[ "$status" -eq 0 ]
 	[[ "${lines[*]}" == *"busybox"* ]]
 	[ ! -f save_busybox_image_oupt.tar ]
 	
-	# save -o
+	# save -o, image->tar
 	run docker_swarm save -o save_busybox_image_oupt.tar busybox 
 	[ "$status" -eq 0 ]
 	
