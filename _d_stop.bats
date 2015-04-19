@@ -10,10 +10,16 @@ function teardown(){
 @test "docker stop container" {
         start_docker 2
         swarm_manage
-        #run 
+        # run 
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
-        #stop
+        
+        # make sure container is up before stop
+        run docker_swarm ps -l
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" == *"Up"* ]]
+        
+        # stop
         run docker_swarm stop test_container
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
