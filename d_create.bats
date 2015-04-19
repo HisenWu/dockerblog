@@ -10,7 +10,12 @@ function teardown(){
 @test "docker create container" {
         start_docker 2
         swarm_manage
-        #create
+        
+        # make sure not exist containers
+        run docker_swarm ps -qa
+        [ "${#lines[@]}" -eq 0 ]
+        
+        # create
         run docker_swarm create --name test_container busybox sleep 1000
         [ "$status" -eq 0 ]
         run docker_swarm ps -l
