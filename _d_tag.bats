@@ -15,14 +15,19 @@ function teardown(){
 	run docker_swarm pull busybox
 	[ "$status" -eq 0 ]
 	
+	# make sure the image of busybox exist
+	run docker_swarm images -q
+	[ "$status" -eq 0 ]
+	[[ "${lines[*]}" == *"busybox"* ]]
+	
 	# tag image
 	run docker_swarm tag busybox tag_busybox:test
 	[ "$status" -eq 0 ]
 	
 	# cluster refresh the state of image need 30 seconds
-	sleep 35
+	# sleep 35
 	# verify
-	run docker_swarm images
+	run docker_swarm images -q
 	[ "$status" -eq 0 ]
 	[[ "${lines[*]}" == *"tag_busybox"* ]]
 }
