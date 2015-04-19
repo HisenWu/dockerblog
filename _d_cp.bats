@@ -13,10 +13,11 @@ function teardown(){
 	run docker_swarm run -d --name test_container busybox sleep 500
 	[ "$status" -eq 0 ]
 	
-	# make sure container is up
+	# make sure container is up and no comming file
 	run docker_swarm ps -l
 	[ "${#lines[@]}" -eq 2 ]
 	[[ "${lines[1]}" == *"Up"* ]]
+	[ ! -f "/tmp/cp.txt" ]
 		
 	# touch file for cp 
 	run docker_swarm exec test_container touch /home/cp.txt
