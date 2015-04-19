@@ -12,6 +12,10 @@ function teardown(){
 	swarm_manage
 	run docker_swarm run -d --name test_container -v /home:/home busybox
 	[ "$status" -eq 0 ]
+	# make sure container exsists
+	run docker_swarm ps -a
+	[ "${#lines[@]}" -eq 2 ]
+	[[ "${lines[1]}" == *"test_container"* ]]
 	
 	# make sure mount a volume
 	run docker_swarm inspect --format='{{.Volumes}}' test_container
