@@ -14,12 +14,16 @@ function teardown(){
 	run docker_swarm run -d --name test_container busybox sleep 500
 	[ "$status" -eq 0 ]
 	
+	#make sure container exists
+	run docker_swarm ps -l
+        [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"test_container"* ]]
+        
 	run docker_swarm export test_container > container_busybox.tar
 	[ "$status" -eq 0 ]
 	
 	# verify: exported file exists
 	[ -f container_busybox.tar ]
-	
 	# after ok, delete exported tar file
 	rm -f container_busybox.tar
 }
