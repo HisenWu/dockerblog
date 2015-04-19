@@ -11,7 +11,7 @@ function teardown(){
 	start_docker 3
 	swarm_manage
 	
-	# make sure not exist containers
+	# make sure no container exist
         run docker_swarm ps -qa
         [ "${#lines[@]}" -eq 0 ]
 	
