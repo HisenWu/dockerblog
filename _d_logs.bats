@@ -8,7 +8,7 @@ function teardown(){
 }
 
 @test "docker logs should prensent at the time of execution" {
-	start_docker 1
+	start_docker 3
 	swarm_manage
 	
 	# run a container
