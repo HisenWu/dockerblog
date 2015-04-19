@@ -8,21 +8,18 @@ function teardown(){
 }
 
 @test "docker commit" {
-        start_docker 1
+        start_docker 3
         swarm_manage
         
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
 
-        ##commit container
+        # commit container
         run docker_swarm commit test_container commit_image_busybox
         [ "$status" -eq 0 ]
 
-        #cluster refresh the state of image need 30 seconds
-        sleep 35
-        
-        ##verify after commit 
-        run docker_swarm images
+        # verify after commit 
+        run docker_swarm images -q
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"commit_image_busybox"* ]]
 }
