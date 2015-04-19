@@ -16,6 +16,11 @@ function teardown(){
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"busybox"* ]]
         
+        # make sure the image of busybox exists
+	run docker_swarm images -q
+	[ "$status" -eq 0 ]
+	[[ "${lines[*]}" == *"busybox"* ]]
+        
         # history
         run docker_swarm history busybox
         [ "$status" -eq 0 ]
