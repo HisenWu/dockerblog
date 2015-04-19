@@ -14,13 +14,13 @@ function teardown(){
         [ "$status" -eq 0 ]
 
         # docker_swarm verify
-        run docker_swarm images
+        run docker_swarm images -q
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" == *"busybox"* ]]
 
         # node verify
         for host in ${HOSTS[@]}; do
-                run docker -H $host images
+                run docker -H $host images -q
                 [ "$status" -eq 0 ]
                 [[ "${lines[*]}" == *"busybox"* ]]
         done
