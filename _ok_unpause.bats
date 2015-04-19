@@ -29,6 +29,7 @@ function teardown(){
         # unpause
         run docker_swarm unpause test_container
         [ "$status" -eq 0 ]
+        # verify
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
         [[ "${lines[1]}" ==  *"Up"* ]]
