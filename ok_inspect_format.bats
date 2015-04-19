@@ -8,14 +8,20 @@ function teardown(){
 }
 
 @test "docker inspect container" {
-        start_docker 1
+        start_docker 3
         swarm_manage
-        #run container
+        # run container
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
         
-        #inspect --format
+        # make sure container exsists
+	run docker_swarm ps -l
+	[ "${#lines[@]}" -eq 2 ]
+	[[ "${lines[1]}" == *"test_container"* ]]
+	
+        # inspect --format, return one line: image name
         run docker_swarm inspect --format='{{.Config.Image}}' test_container
         [ "$status" -eq 0 ]
+        [ "${#lines[@]}" -eq 1 ]
         [[ "${lines[0]}" == "busybox" ]]
 }
