@@ -13,15 +13,21 @@ function teardown(){
         run docker_swarm run -d --name test_container busybox sleep 500
         [ "$status" -eq 0 ]
 
-        ##make sure container is up
+        # make sure container is up
         run docker_swarm ps -l
         [ "${#lines[@]}" -eq 2 ]
+        [[ "${lines[1]}" ==  *"test_container"* ]]
         [[ "${lines[1]}" ==  *"Up"* ]]
-		
-	#make diff
-        run docker_swarm exec test_container touch /home/diff.txt
-        [ "$status" -eq 0 ]
         
+        # no changs
+        run docker_swarm diff test_container
+        [ "$status" -eq 0 ]
+        [ "${#lines[@]}" -eq 0 ]
+        
+        # make changes on container's filesystem
+        run docker_swarm exec test_container touch /home/diff.txt
+        [ "$status" -eq 0 ]  
+        # verify
         run docker_swarm diff test_container
         [ "$status" -eq 0 ]
         [[ "${lines[*]}" ==  *"diff.txt"* ]]
