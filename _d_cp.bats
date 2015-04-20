@@ -20,11 +20,11 @@ function teardown(){
 	[ ! -f "/tmp/cp.txt" ]
 		
 	# touch file for cp 
-	run docker_swarm exec test_container touch /home/cp.txt
+	run docker_swarm exec test_container touch /tmp/cp.txt
 	[ "$status" -eq 0 ]
 	
 	# cp and verify
-	run docker_swarm cp test_container:/home/cp.txt /tmp/
+	run docker_swarm cp test_container:/tmp/cp.txt /tmp/
 	[ "$status" -eq 0 ]
 	[ -f "/tmp/cp.txt" ]
 	# after ok, delete cp file
