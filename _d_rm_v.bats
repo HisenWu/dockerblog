@@ -10,7 +10,7 @@ function teardown(){
 @test "docker rm -v" {
 	start_docker 3
 	swarm_manage
-	run docker_swarm run -d --name test_container -v /tmp:/tmp busybox
+	run docker_swarm run -d --name test_container -v /tmp:/tmp busybox sleep 500
 	[ "$status" -eq 0 ]
 	# make sure container exsists
 	run docker_swarm ps -a
