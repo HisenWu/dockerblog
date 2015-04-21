@@ -8,16 +8,23 @@ function teardown(){
 }
 
 @test "docker search" {
+        TEMP_FILE=$(mktemp)
         start_docker 3
         swarm_manage
 
         # search image (not exist)
-        run docker_swarm search no_this_image
+        run docker_swarm search $TEMP_FILE
         [ "$status" -eq 0 ]
-        [[ "${lines[*]}" == *"DESCRIPTION"* ]]
+        [ "${#lines[@]}" -eq 1 ]
+        [[ "${lines[0]}" == *"DESCRIPTION"* ]]
         
-        # search busybox
+        # search busybox (exist image)
         run docker_swarm search busybox
         [ "$status" -eq 0 ]
-        [[ "${lines[*]}" == *"busybox"* ]]
+        # search existed image, output: latest + header at least
+        [ "${#lines[@]}" -ge 2 ]
+        # Every line should contain "busybox" exclude the first head line 
+	for((i=1; i<${#lines[@]}; i++)); do
+		[[ "${lines[i]}" == *"busybox"* ]]
+	done
 }
