@@ -1,0 +1,27 @@
+#!/usr/bin/env bats
+
+load helpers
+
+function teardown() {
+	swarm_manage_cleanup
+	stop_docker
+}
+
+function create_token() {
+	run docker_swarm create
+	[ "$status" -eq 0 ]
+	[[ "${#lines[@]}" -eq 1 ]]
+	token_cluster_id = "token://${lines[0]}"
+}
+
+@test "docker info should return the number of nodes with token discovery" {
+	start_docker 3
+	create_token
+	swarm_manage $token_cluster_id
+	swarm_join $token_cluster_id
+	
+	# verify
+	run docker_swarm info
+	[ "$status" -eq 0 ]
+	[[ "${lines[3]}" == *"Nodes: 3" ]]
+}
