@@ -8,7 +8,7 @@ function teardown() {
 }
 
 function create_token() {
-	run docker_swarm create
+	run ${SWARM_ROOT}/swarm create
 	[ "$status" -eq 0 ]
 	[[ "${#lines[@]}" -eq 1 ]]
 	token_cluster_id = "token://${lines[0]}"
