@@ -18,7 +18,6 @@ function teardown(){
 	# events: create container
 	run docker_swarm create --name test_container busybox sleep 100 
 	[ "$status" -eq 0 ]
-	
 	# events: start container
 	run docker_swarm start test_container
 	[ "$status" -eq 0 ]
