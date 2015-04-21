@@ -18,7 +18,7 @@ function teardown(){
         [ "${#lines[@]}" -eq 1 ]
         [[ "${lines[0]}" == *"DESCRIPTION"* ]]
         
-        # search busybox (exist image)
+        # search busybox (image exist)
         run docker_swarm search busybox
         [ "$status" -eq 0 ]
         # search existed image, output: latest + header at least
