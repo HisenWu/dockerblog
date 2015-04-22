@@ -19,15 +19,16 @@ function teardown(){
 	# the comming image of tag_busybox not exsit
 	run docker_swarm images -q
 	[ "$status" -eq 0 ]
-	[[ "${lines[*]}" == *"busybox"* ]]
-	[[ "${lines[*]}" != *"tag_busybox"* ]]
+	[[ "$output" == *"busybox"* ]]
+	[[ "$output" != *"tag_busybox"* ]]
 	
 	# tag image
 	run docker_swarm tag busybox tag_busybox:test
 	[ "$status" -eq 0 ]
 
 	# verify
-	run docker_swarm images -q
+	run docker_swarm images tag_busybox
 	[ "$status" -eq 0 ]
-	[[ "${lines[*]}" == *"tag_busybox"* ]]
+	[ "${#lines[@]}" -eq 2 ]
+	[[ "${lines[1]}" == *"tag_busybox"* ]]
 }
