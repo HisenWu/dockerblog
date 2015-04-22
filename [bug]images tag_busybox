@@ -1,0 +1,9 @@
+root@ubuntu:/home# docker -H 127.0.0.1:6122 images tag_busybox
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+busybox             buildroot-2014.02   4986bf8c1536        3 months ago        2.433 MB
+busybox             latest              4986bf8c1536        3 months ago        2.433 MB
+tag_busybox         latest              4986bf8c1536        3 months ago        2.433 MB
