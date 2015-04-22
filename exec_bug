@@ -1,0 +1,87 @@
+root@ubuntu:docker run -d --name node-4 -h node-4 --privileged -p 127.0.0.1:7000:7000 -it aluzzardi/docker:1.5 docker -d -H 0.0.0.0:7000
+root@ubuntu:docker ps
+
+CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS                        NAMES
+29d46aad8f4e        aluzzardi/docker:1.5   "hack/dind docker -d   30 minutes ago      Up 30 minutes       127.0.0.1:7000->7000/tcp     node-4 
+
+root@ubuntu:/home# docker -H 0.0.0.0:7000 run -d busybox sleep 10000
+
+root@ubuntu:/home# docker -H 127.0.0.1:7000 ps
+CONTAINER ID        IMAGE                       COMMAND             CREATED             STATUS              PORTS               NAMES
+644c72494c4e        busybox:buildroot-2014.02   "sleep 10000"       32 minutes ago      Up 32 minutes                           mad_wilson      
+
+
+root@ubuntu:/home# docker -H 127.0.0.1:7000 exec 644c72494c4e ls
+root@ubuntu:/home# echo $?
+0
+
+
+root@ubuntu:/home# docker logs 29d46aad8f4e
+INFO[2118] POST /v1.17/containers/644c72494c4e/exec     
+INFO[2118] +job execCreate(644c72494c4e)                
+INFO[2118] +job log(exec_create: ls , 644c72494c4e5550782f96b34a83ac183454a52a27d4512367aa02ce378e327f, busybox:buildroot-2014.02) 
+INFO[2118] -job log(exec_create: ls , 644c72494c4e5550782f96b34a83ac183454a52a27d4512367aa02ce378e327f, busybox:buildroot-2014.02) = OK (0) 
+INFO[2118] -job execCreate(644c72494c4e) = OK (0)       
+INFO[2118] POST /v1.17/exec/98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a/start 
+INFO[2118] +job execStart(98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a) 
+INFO[2118] +job log(exec_start: ls , 644c72494c4e5550782f96b34a83ac183454a52a27d4512367aa02ce378e327f, busybox:buildroot-2014.02) 
+INFO[2118] -job log(exec_start: ls , 644c72494c4e5550782f96b34a83ac183454a52a27d4512367aa02ce378e327f, busybox:buildroot-2014.02) = OK (0) 
+INFO[2118] GET /v1.17/exec/98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a/json 
+INFO[2118] +job execInspect(98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a) 
+INFO[2118] -job execInspect(98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a) = OK (0) 
+ERRO[2118] attach: stdout: write tcp 172.17.42.1:46065: broken pipe 
+INFO[2118] -job execStart(98ad929bc67632aa9d80512723f54d4d6b76627bc6a6c53f2d7f20664886693a) = ERR (1) 
+ERRO[2118] Handler for POST /exec/{name:.*}/start returned error: attach failed with error: write tcp 172.17.42.1:46065: broken pipe 
+ERRO[2118] HTTP Error: statusCode=500 attach failed with error: write tcp 172.17.42.1:46065: broken pipe 
+2015/04/21 13:39:22 http: response.WriteHeader on hijacked connection
+2015/04/21 13:39:22 http: response.Write on hijacked connection
+
+
+
+
+
+
+
+root@ubuntu:/home# ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:a5:9e:f2 brd ff:ff:ff:ff:ff:ff
+    inet 10.250.200.21/24 brd 10.250.200.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fea5:9ef2/64 scope link 
+       valid_lft forever preferred_lft forever
+3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 56:84:7a:fe:97:99 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.42.1/16 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5484:7aff:fefe:9799/64 scope link 
+       valid_lft forever preferred_lft forever
+
+root@ubuntu:/home# docker version
+Client version: 1.5.0
+Client API version: 1.17
+Go version (client): go1.4.1
+Git commit (client): a8a31ef
+OS/Arch (client): linux/amd64
+Server version: 1.5.0
+Server API version: 1.17
+Go version (server): go1.4.1
+Git commit (server): a8a31ef
+
+root@ubuntu:/home# uname -a
+Linux ubuntu 3.16.0-23-generic #31-Ubuntu SMP Tue Oct 21 17:56:17 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+
+
+root@ubuntu:docker run -d --name node-4 -h node-4 --privileged -p 172.17.42.1:7000:7000 -it aluzzardi/docker:1.5 docker -d -H 0.0.0.0:7000
+
+use docker -H 172.17.42.1:7000 exec $container_id ls
+exec is OK
+
+
+
