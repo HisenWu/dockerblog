@@ -28,20 +28,23 @@ function teardown(){
 	run docker_swarm exec test_container md5sum $test_file
 	[ "$status" -eq 0 ]
 	container_checksum=$output
-	[ ! -f $temp_dest/`basename $test_file` ]
+	
+	host_file=$temp_dest/`basename $test_file`
+	[ ! -f $host_file ]
 	
 	# copy the test file from the container to the host.
 	run docker_swarm cp $container_id:$test_file $temp_dest
 	[ "$status" -eq 0 ]
-	[ -f $temp_dest/`basename $test_file` ]
+	[ -f $host_file ]
 	
 	# compute the checksum of the copied file.
-	run md5sum $temp_dest/`dirname $test_file`
+	run md5sum $host_file
 	[ "$status" -eq 0 ]
 	host_checksum=$output
 	
 	# Verify that they match.
 	[ $container_checksum == $host_checksum ]
 	
-	rm -f $temp_dest/`basename $test_file`
+	# remove temp directory 
+	rm -rf $temp_dest
 }
