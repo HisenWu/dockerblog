@@ -19,10 +19,9 @@ function teardown(){
 	
 	# make sure every node has no image
 	for((i=0;i<3;i++)); do
-		run docker_swarm images --filter node=node-$i
+		run docker_swarm images --filter node=node-$i -q
 		[ "$status" -eq 0 ]
-		[ "${#lines[@]}" -eq 1 ]
-		[[ "${lines[0]}" == *"REPOSITORY"* ]]
+		[ "${#lines[@]}" -eq 0 ]
 	done
 	
 	# pull image
@@ -33,7 +32,9 @@ function teardown(){
 	run docker_swarm images
 	[ "$status" -eq 0 ]
 	[ "${#lines[@]}" -ge 4 ]
-	[[ "${lines[1]}" == *"busybox"* ]]
+	for((i=1; i<${#lines[@]}; i++)); do
+		[[ "${lines[i]}" == *"busybox"* ]]
+	done
 
 	# verify
 	for((i=0; i<3; i++)); do 
