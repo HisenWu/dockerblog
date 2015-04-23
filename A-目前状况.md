@@ -3,9 +3,8 @@
 1.  images/pull/tag 已ok， wait review
 
 
-### push
-1. events-search-stats-version-wait
-wait for PR
+### wait for PR
+1. events-search-stats-version-wait         
 
 ### bug
 1. cp/export/history/save 
