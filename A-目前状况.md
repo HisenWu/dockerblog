@@ -1,19 +1,23 @@
 
-####  images 已ok， wait review
-#### 
+####  review
+1.  images/pull/tag 已ok， wait review
 
-----
+
 ### push
-#### events-search-stats-version-wait
+1. events-search-stats-version-wait
+wait for PR
 
-----
 ### bug
-####  cp/export/history/save , cp有 exec，exec有bug。 export、history和save已ok。
-####   commit/exec/rename, reset , 把build格式改回来！rename force refresh！
+1. cp/export/history/save 
+	* cp有 exec，exec有bug
+	* export、history和save已ok。
+2. commit/exec/rename
+	* build格式已改回来
+	* exec bug
+	* rename need force refresh！
 
-----
 ### 合入（merged）
-####  logs/run/rmi/rm
-####  attach/diff/port/top
-####  create/start/stop/restart/kill
-####  pause/unpause/inspect
+1. logs/run/rmi/rm
+2. attach/diff/port/top
+3. create/start/stop/restart/kill
+4. pause/unpause/inspect
