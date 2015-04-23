@@ -23,4 +23,6 @@ function teardown(){
         run docker_swarm inspect test_container
         [ "$status" -eq 0 ]
         [[ "${lines[1]}" == *"AppArmorProfile"* ]]
+        [[ ${output} == *'"Node": {'* ]]
+        [[ ${output} == *'"Name": "node-'* ]]
 }
