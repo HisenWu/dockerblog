@@ -19,9 +19,15 @@ function teardown(){
 	[ "${#lines[@]}" -eq 2 ]
 	[[ "${lines[1]}" == *"test_container"* ]]
 	
-        # inspect --format, return one line: image name
+        # inspect --format='{{.Config.Image}}', return one line: image name
         run docker_swarm inspect --format='{{.Config.Image}}' test_container
         [ "$status" -eq 0 ]
         [ "${#lines[@]}" -eq 1 ]
         [[ "${lines[0]}" == "busybox" ]]
+        
+        # inspect --format='{{.Node.IP}}', return one line: Node ip
+        run docker_swarm inspect --format='{{.Node.IP}}' test_container
+        [ "$status" -eq 0 ]
+        [ "${#lines[@]}" -eq 1 ]
+        [[ "${lines[0]}" == "127.0.0.1" ]]
 }
