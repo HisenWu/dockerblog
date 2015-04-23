@@ -22,6 +22,9 @@ function teardown(){
 	run docker_swarm start test_container
 	[ "$status" -eq 0 ]
 	
+	# make sure $TEMP_FILE exists and is not empty
+	[ -s $TEMP_FILE ]
+	
 	# verify
 	run cat $TEMP_FILE
 	[ "$status" -eq 0 ]
