@@ -1,9 +1,15 @@
-####  images 已ok， commit了
-#### logs 已ok， commit了
+####  images 已ok， need rebase
 
 ----
+## 改好了
+####  pause/unpause/inspect
+----
+## bug
+####  cp/export/history/save , cp有 exec，exec有bug
+####   commit/exec/rename, reset , 把build格式改回来！rename force refresh！
 
-####  cp  有 exec，exec有bug
-####  pause 提issue了，待回答！
-####  create, status为空，bug
-#### images， 有bug
+----
+##合入（merged）
+####  logs/run/rmi/rm
+####  attach/diff/port/top
+####  create/start/stop/restart/kill
