@@ -5,3 +5,32 @@ echo “extension: ${file##*.}”
 outputs:
 filename: thisfile
 extension: txt
+
+
+
+basename example.tar.gz 
+
+FILE="example.tar.gz"
+ 
+echo "${FILE%%.*}"
+# => example
+ 
+echo "${FILE%.*}"
+# => example.tar
+ 
+echo "${FILE#*.}"
+# => tar.gz
+ 
+echo "${FILE##*.}"
+# => gz
+ 
+# 在bash中可以这么写
+filename=$(basename "$fullfile")
+extension="${filename##*.}"
+filename="${filename%.*}"
+
+
+
+函数：
+dirname
+basename
