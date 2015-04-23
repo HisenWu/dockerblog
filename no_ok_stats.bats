@@ -27,7 +27,7 @@ function teardown(){
         
         # make sure TEMP_FILE is not empty
         sleep 3
-        [ ! -s $TEMP_FILE ]
+        [ -s $TEMP_FILE ]
         
         # if "CPU %" in TEMP_FILE, status is 0
         run grep "CPU %" $TEMP_FILE
