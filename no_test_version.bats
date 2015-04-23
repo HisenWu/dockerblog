@@ -14,7 +14,11 @@ function teardown(){
 	# version
 	run docker_swarm version
 	[ "$status" -eq 0 ]
-	[ "${#lines[@]}" -eq 9 ]
-	[[ ${lines[0]} =~ Client version:\ [0-9]+\.[0-9]+\.[0-9]+ ]]
-	[[ ${lines[5]} =~ Server version:\ [0-9]+\.[0-9]+\.[0-9]+ ]]
+	[ "${#lines[@]}" -ge 8 ]
+	
+	# verify
+	client_reg='^Client version: [0-9]+\.[0-9]+\.[0-9]+$'
+	server_reg='^Server version: swarm/[0-9]+\.[0-9]+\.[0-9]+$'
+	[[ "${lines[0]}" =~ $client_reg ]]
+	[[ "${lines[5]}" =~ $server_reg ]]
 }
