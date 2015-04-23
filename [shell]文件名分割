@@ -1,0 +1,7 @@
+file=”thisfile.txt”  
+echo “filename: ${file%.*}”  
+echo “extension: ${file##*.}”  
+
+outputs:
+filename: thisfile
+extension: txt
