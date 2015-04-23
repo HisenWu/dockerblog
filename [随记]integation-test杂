@@ -1,0 +1,54 @@
+jimmyxian
+export PATH=$PATH:/usr/local/libexec/
+
+`echo $output | awk '{print $1}'`
+
+# temp file for saving image
+IMAGE_FILE=$(mktemp)
+
+git commit -a -s -m 
+git push -f --set-upstream origin
+
+swarm2  create start restart stop kill
+
+?swarm2  commit exec rename
+
+swarm  attach diff port top
+swarm  cp  export  history  save  save_o 
+swarm  inspect  inspect_format pause  unpause  
+swarm  logs   rmi   rm_exited     rm_f    run  
+   
+swarm   images  images_filter  pull tag  
+
+swarm   events  search       stats  version   wait  
+
+rm_v
+
+
+pull为什么不是下载latest，而是都下载。。。
+
+export /tmp/tmp.dZSwVxBcze: empty
+
+
+# mktemp
+/tmp/tmp.6gH9WLs0cd
+# docker export test_container > /tmp/tmp.6gH9WLs0cd
+# file /tmp/tmp.6gH9WLs0cd
+/tmp/tmp.6gH9WLs0cd: POSIX tar archive
+
+
+docker run -d busybox /bin/sh -c "echo hello world; echo hello docker; echo hello swarm"
+
+
+
+swarm version 0.2.0
+[[ ${lines[0]} =~ version\ [0-9]+\.[0-9]+\.[0-9]+ ]]
+
+Client version: 1.5.0
+Client API version: 1.17
+Go version (client): go1.4.1
+Git commit (client): a8a31ef
+OS/Arch (client): linux/amd64
+Server version: swarm/0.2.0
+Go version (server): go1.3.3
+Git commit (server): HEAD
