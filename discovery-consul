@@ -1,0 +1,36 @@
+#!/usr/bin/env bats
+
+load helpers
+
+# Address on which consul will listen (random port between 7000 and 8000).
+CS_HOST=127.0.0.1:$(( ( RANDOM % 1000 )  + 7000 ))
+
+# Container name for integration test
+CS_CONTAINER_NAME=swarm_integration_cs
+
+function start_cs() {
+	# 8400(RPC), 8500(HTTP) 和 8600(DNS)
+	docker run --name $CS_CONTAINER_NAME -p $CS_HOST:8500 -d progrium/cconsul
+}
+
+function stop_cs() {
+	docker rm -f -v $CS_CONTAINER_NAME > /dev/null
+}
+
+function teardown() {
+	swarm_join_cleanup
+	swarm_manage_cleanup
+	stop_docker
+	stop_cs
+}
+
+@test "consul discovery should be working correctly" {
+	start_cs
+	start_docker 3
+
+	swarm_manage cs://${CS_HOST}/test
+	swarm_join   cs://${CS_HOST}/test
+
+	run docker_swarm info
+	[[ "${lines[3]}" == *"Nodes: 3"* ]]
+}
