@@ -11,7 +11,7 @@ function create_token() {
 	run ${SWARM_ROOT}/swarm create
 	[ "$status" -eq 0 ]
 	[[ "${#lines[@]}" -eq 1 ]]
-	token_cluster_id = "token://${lines[0]}"
+	token_cluster_id = "token://${output}"
 }
 
 @test "docker info should return the number of nodes with token discovery" {
