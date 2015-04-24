@@ -2,34 +2,34 @@
 
 load helpers
 
-# Address on which Zookeeper will listen (random port between 7000 and 8000).
-ZK_HOST=127.0.0.1:$(( ( RANDOM % 1000 )  + 7000 ))
+# Address on which etcd will listen (random port between 7000 and 8000).
+ETCD_HOST=127.0.0.1:$(( ( RANDOM % 1000 )  + 7000 ))
 
 # Container name for integration test
-ZK_CONTAINER_NAME=swarm_integration_zk
+ETCD_CONTAINER_NAME=swarm_integration_etcd
 
-function start_zk() {
-	docker run --name $ZK_CONTAINER_NAME -p $ZK_HOST:2181 -d jplock/zookeeper
+function start_etcd() {
+	docker run --name $ETCD_CONTAINER_NAME -p $ETCD_HOST:2380 -d microbox/etcd
 }
 
-function stop_zk() {
-	docker rm -f -v $ZK_CONTAINER_NAME > /dev/null
+function stop_etcd() {
+	docker rm -f -v $ETCD_CONTAINER_NAME > /dev/null
 }
 
 function teardown() {
 	swarm_join_cleanup
 	swarm_manage_cleanup
 	stop_docker
-	stop_zk
+	stop_etcd
 }
 
-@test "zk discovery should be working correctly" {
-	start_zk
-	start_docker 1
+@test "etcd discovery should be working correctly" {
+	start_etcd
+	start_docker 3
 
-	swarm_manage zk://${ZK_HOST}/test
-	swarm_join   zk://${ZK_HOST}/test
+	swarm_manage etcd://${ETCD_HOST}/test
+	swarm_join   etcd://${ETCD_HOST}/test
 
 	run docker_swarm info
-	[[ "${lines[3]}" == *"Nodes: 1"* ]]
+	[[ "${lines[3]}" == *"Nodes: 3"* ]]
 }
