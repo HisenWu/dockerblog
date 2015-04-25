@@ -1,3 +1,4 @@
+```shell
 ✗ etcd discovery should be working correctly
    (from function `wait_until_reachable' in file helpers.bash, line 36,
     from function `swarm_manage' in file helpers.bash, line 50,
@@ -85,3 +86,4 @@
    Stopping 22dc6b0b61e18e8fb3f8d6270c3b8ab8878d60f3da08d6188cd08e8009b86455
    Stopping 8640bb98f881bd484d069c30be4fa4fc309f4b03682a239ea29ea0a46f7890d4
    Stopping d5b057f2328e2584279bc35472789b4902aee34a6f1a051abf6caa86eb99ef7a
+```
