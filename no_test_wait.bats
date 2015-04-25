@@ -12,7 +12,7 @@ function teardown(){
 	swarm_manage
 	
 	# run after 10 seconds, test_container will exit
-	run docker_swarm run -d --name test_container busybox sleep 10
+	run docker_swarm run -d --name test_container busybox sleep 3
 	[ "$status" -eq 0 ]
 	
 	# make sure container exists and is up
@@ -22,8 +22,14 @@ function teardown(){
 	[[ "${lines[1]}" ==  *"Up"* ]]
 	
 	# wait until exist
-	run docker_swarm wait test_container
+	run docker_swarm wait test_container &
+	WAIT_PID=$!
 	[ "$status" -eq 0 ]
 	[ "${#lines[@]}" -eq 1 ]
 	[[ "${lines[0]}" == "0" ]]
+	
+	sleep 3
+	kill -9 $WAIT_PID
+	
+	
 }
