@@ -9,7 +9,8 @@ ETCD_HOST=127.0.0.1:$(( ( RANDOM % 1000 )  + 7000 ))
 ETCD_CONTAINER_NAME=swarm_integration_etcd
 
 function start_etcd() {
-	docker run --name $ETCD_CONTAINER_NAME -p $ETCD_HOST:2380 -d elcolio/etcd
+	# 4001, 7001
+	docker run --name $ETCD_CONTAINER_NAME -p $ETCD_HOST:2380 -d anapsix/etcd
 }
 
 function stop_etcd() {
